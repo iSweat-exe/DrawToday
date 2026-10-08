@@ -1,0 +1,71 @@
+name: Bug report
+description: Something does not work as expected
+labels: ["type: bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Expected vs actual behaviour.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Where does it happen? Becomes the `area:` label.
+      options:
+        - auth
+        - database
+        - exercises
+        - tips
+        - videos
+        - progress
+        - profile
+        - settings
+        - health
+        - ui
+        - pwa
+        - accessibility
+        - infra
+        - docs
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: Becomes the `priority:` label. The maintainer can change it while triaging.
+      options:
+        - critical - production is broken, data or security at risk
+        - high - a main feature is unusable
+        - medium - annoying, there is a workaround
+        - low - cosmetic or rare
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      description: Becomes the `platform:` label.
+      multiple: true
+      options:
+        - iOS
+        - Android
+        - Desktop
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: Device, OS, browser, PWA installed or not, app version/commit.
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / screenshots
+      description: Never paste secrets or personal data.

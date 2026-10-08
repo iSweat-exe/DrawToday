@@ -1,0 +1,14 @@
+node_modules
+.next
+.dev
+.agents
+.claude
+public
+package-lock.json
+skills-lock.json
+*.md
+coverage
+playwright-report
+test-results
+# One label per line on purpose: easier to read and diff than prettier's expanded form.
+.github/labels.yml

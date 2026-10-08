@@ -1,0 +1,3 @@
+-- Dev seed: sample data for local development, replayed by `supabase db reset` after the migrations.
+-- Add one block per feature (exercises, tips, videos...) and one test account per role once the roles exist.
+-- Never put real data or real credentials here.
