@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       # `latest` follows the CLI used to develop locally; pin a version here if a release ever breaks the CI.
-      - uses: supabase/setup-cli@v1
+      - uses: supabase/setup-cli@v3
         with:
           version: latest
       # Starts the local stack (Docker is available on GitHub runners) and replays every migration from scratch.
@@ -59,7 +59,7 @@ jobs:
       MARK_APPLIED: ${{ inputs.mark_applied }}
     steps:
       - uses: actions/checkout@v4
-      - uses: supabase/setup-cli@v1
+      - uses: supabase/setup-cli@v3
         with:
           version: latest
       - name: Check the production secrets are set
