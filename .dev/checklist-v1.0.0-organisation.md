@@ -82,6 +82,8 @@
 - [~] **O-063** Seuil de couverture minimal sur `lib/` et `server/` (70 %) — _CI_
 - [~] **O-064** Test de charge k6 (200 utilisateurs) — _`load/` + `docs/load-testing.md` ; à brancher sur les vraies pages et données (jamais contre la production)_
 
+- [x] **O-067** Tests unitaires et e2e de l'existant : manifeste, robots/sitemap, pages d'erreur, enregistrement du service worker, `sw.js`, clients Supabase, `next.config` (en-têtes, CSP, caches), installation PWA — _CI_
+
 ## Étape 0.8 — Sécurité & opérations de base
 - [~] **O-070** Gestion des secrets : variables Vercel + `.env.local` ; rotation documentée — _`docs/runbook.md`_
 - [~] **O-071** En-têtes de sécurité (CSP, HSTS, X-Frame-Options…) dans `next.config.ts` 🔒 — _vérifié par test E2E ; scanner externe à passer après le premier déploiement_
