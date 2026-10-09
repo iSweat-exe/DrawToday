@@ -187,9 +187,12 @@ body {
 }
 
 html {
-  /* Stop iOS from inflating text after a rotation. Pinch zoom stays available on purpose (accessibility, and
-     the learner must be able to zoom in on a drawing): see .dev/decisions-a-valider.md. */
+  /* Stop iOS from inflating text after a rotation. */
   -webkit-text-size-adjust: 100%;
+  /* The page stays at 100 %: scrolling is allowed, pinch and double-tap zoom are not (iOS Safari ignores
+     `user-scalable=no`, this is what it respects). Zoomable content (drawings) uses its own viewer with
+     `touch-action: none`, see ADR 0004. */
+  touch-action: pan-x pan-y;
 }
 
 /* Taps: no 300 ms delay or double-tap zoom on controls, no grey flash on Android/iOS. */

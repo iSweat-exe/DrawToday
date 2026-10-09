@@ -191,7 +191,7 @@ points marqués ⚖.
 - **Règles** : demander après la **première séance réussie** (pas à l'ouverture), expliquer la valeur, permettre de **régler l'heure** et de **désactiver** facilement ; 1 notification par jour au plus ; jamais de nuit.
 
 ### 17. Accessibilité (●)
-- Zoom jamais bloqué, contrastes, navigation au clavier, lecteur d'écran, `prefers-reduced-motion`, tailles de texte, **daltonisme** (ne pas coder l'information par la couleur seule), sous-titres des vidéos, schémas avec texte alternatif. Audit Lighthouse et test manuel (A-100).
+- Zoom de la page bloqué (décision assumée) **compensé** par une visionneuse zoomable pour tout contenu à agrandir, contrastes, navigation au clavier, lecteur d'écran, `prefers-reduced-motion`, tailles de texte, **daltonisme** (ne pas coder l'information par la couleur seule), sous-titres des vidéos, schémas avec texte alternatif. Audit Lighthouse et test manuel (A-100).
 
 ### 18. Plusieurs langues (○)
 - Le français d'abord (O-019 en attente) ; si un jour l'anglais ou d'autres : tout le texte passe par des fichiers de traduction, **exercices compris** (contenu à traduire, pas seulement l'interface). Avec un petit public, ne le faire que si une demande réelle existe.
@@ -256,7 +256,7 @@ Décision rôles / contenu ─► Back-office
 - **Pas de récompense aléatoire** (loot box), pas de perte d'XP, pas de « vies ».
 - **Pas de blocage de contenu** faute d'XP : l'XP n'est pas un péage.
 - **Pas de copie** des contenus de tiers (Drawabox, Proko, Ctrl+Paint…) : on s'inspire et on cite.
-- **Pas de blocage du zoom** (accessibilité).
+- **Pas d'image qui ne s'agrandit pas** : le zoom de la page est bloqué, donc tout dessin ou image de référence passe par la visionneuse zoomable.
 - **Pas de nouvelle dépendance** sans accord (règle `CLAUDE.md`).
 
 ## Comment faire évoluer cette liste

@@ -12,7 +12,7 @@ Règles :
 - Server Component par défaut ; "use client" seulement si nécessaire, composants client petits.
 - Aucune requête Supabase dans les composants : passe par src/lib/data/* (cache, batching).
 - Valide toutes les entrées (schéma) ; gère erreurs et états de chargement ; mobile-first
-  (safe-area iOS), accessibilité clavier, zoom jamais bloqué.
+  (safe-area iOS), accessibilité clavier ; le zoom de la page est bloqué (donc toute image à agrandir passe par la visionneuse zoomable).
 - Utilise les tokens et classes du design system (src/app/globals.css) : aucune couleur ni taille codée en dur.
 - Textes visibles en français ; code, commentaires et noms en anglais.
 - Vérifie la permission côté serveur ; ne fais pas confiance à l'UI.

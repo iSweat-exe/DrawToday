@@ -49,7 +49,7 @@ Les onglets sont les **seuls liens préchargés** (`docs/performance.md`) ; tout
 - **Chronomètre fiable** : calculé à partir de **l'heure de début** (pas d'un compteur qui s'arrête quand l'application passe en arrière-plan) ; signal sonore ou vibration à
   la fin de chaque bloc (la vibration n'existe pas partout, **à vérifier** sur iOS).
 - **Écran maintenu allumé** pendant la séance (API Wake Lock, **support à vérifier** sur iOS en PWA installée).
-- **Zoom toujours possible** sur les images de référence (accessibilité ; le zoom n'est jamais désactivé).
+- **Zoom de la page bloqué** (sensation d'application native) : les images de référence s'ouvrent donc dans la **visionneuse zoomable** (pincement, double toucher, glisser), indispensable pour agrandir un dessin.
 - **Hors-ligne** : la séance du jour et ses images sont disponibles sans réseau (stratégie de cache à définir en A-081) ; les résultats sont envoyés plus tard.
 - À la fin : revue M1 (3 champs courts), photo facultative, récapitulatif XP, **prochaine séance**.
 

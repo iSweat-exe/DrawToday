@@ -17,7 +17,7 @@ Reprendre à l'identique, ou adapté, tout ce qui est **générique** ; ne rien 
 | Repris tel quel | Adapté | Volontairement non repris |
 | --- | --- | --- |
 | Workflows CI (`ci.yml`, `supabase.yml`, `auto-label.yml`, `labels-sync.yml`, `release-please.yml`), Dependabot, `CODEOWNERS`, template de PR, scripts de labels | Domaines `area:` (`labels.yml`, `labeler.yml`, formulaires d'issue, `auto-label-issue.sh`) ; `package.json`, nom du cookie (`drawtoday-auth`), `vercel.json` (sans région), `supabase/config.toml` (hook JWT et Discord désactivés) | RBAC et hook JWT, administration, carte (MapLibre), annonces, calendrier, OAuth Discord/Google, page de santé détaillée, Vercel Analytics |
-| husky + lint-staged + commitlint, ESLint, Prettier, TypeScript strict | `next.config.ts` (CSP sans carte ni analytics, `Permissions-Policy` sans géolocalisation) | Verrouillage du zoom (`NoZoom`, `user-scalable=no`) : défaut d'accessibilité |
+| husky + lint-staged + commitlint, ESLint, Prettier, TypeScript strict, `NoZoom` et verrouillage du zoom de la page (ré-adopté le 2026-10-09 après une première décision inverse) | `next.config.ts` (CSP sans carte ni analytics, `Permissions-Policy` sans géolocalisation) | — |
 | Vitest (seuil 70 %), Playwright (desktop + mobile), pgTAP (test RLS global) | Tests e2e réécrits pour les pages de DrawToday ; `load/` généralisé (Linux/macOS, sans seed métier) | Tests et migrations du domaine de BlocusApp |
 | `CLAUDE.md`, `AGENTS.md`, `.dev/`, `docs/`, skills Supabase (`.claude/skills`, `.agents/skills`) | Contenu des checklists, contraintes, ADR, recettes (+ « nouveau domaine ») | Mesures de performance de BlocusApp (non transposables) |
 
