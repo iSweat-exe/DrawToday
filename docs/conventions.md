@@ -42,7 +42,8 @@ Un fichier de test est à côté du fichier testé (`foo.ts` → `foo.test.ts`).
   le cache, le batching, la compression).
 - Cette version de Next.js a des changements incompatibles : consulter `node_modules/next/dist/docs/`.
 - `<Link>` : `prefetch={false}` par défaut, sauf les onglets principaux (voir `docs/performance.md`).
-- Le zoom n'est jamais désactivé (accessibilité) : pas de `user-scalable=no` ni de `maximum-scale`.
+- Le **zoom de la page est bloqué** (décision du propriétaire, 2026-10-09, pour une sensation d'application native) : `user-scalable=no`, `maximum-scale=1`, `NoZoom` (iOS) et `touch-action: pan-x pan-y`. Tout contenu que
+  l'élève doit agrandir (dessins, images de référence) passe par la **visionneuse zoomable** de l'application (ADR 0004) : ne jamais afficher une image qu'on ne peut pas agrandir.
 
 ## Validation et erreurs
 
@@ -67,6 +68,8 @@ hauteur de bouton : utiliser les tokens et classes partagées. Ajouter un token 
 | Boutons               | `.btn` + `.btn-primary` / `-secondary` / `-outline` / `-danger`, `.btn-sm`    |
 | Champs de formulaire  | `.field`, `.field-label`, `.field-error`                                      |
 | Titres                | `.page-title`, `.section-title`                                               |
+
+Les **composants** (`Button`, `Switch`, `SegmentedControl`, `ProgressRing`…) sont décrits dans [`design-system.md`](./design-system.md) ; on les utilise avant d'en créer d'autres.
 
 La couleur d'accent du socle est provisoire (identité visuelle à choisir).
 

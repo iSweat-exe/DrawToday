@@ -81,6 +81,9 @@
           - src/app/**/layout.tsx
           - design/**
           - docs/adr/0003-design-system-tokens.md
+          - docs/adr/0004-design-system-components.md
+          - docs/design-system.md
+          - src/app/**/design-system/**
 
 "area: pwa":
   - changed-files:

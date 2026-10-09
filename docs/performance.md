@@ -1,8 +1,9 @@
 # Performance, réseau et quotas
 
 > Document vivant : chaque PR qui touche au cache, au rendu ou au réseau y ajoute ses règles et ses mesures.
-> Cible provisoire : ~1000 utilisateurs inscrits, ~200 simultanés, sur les offres gratuites (voir
-> [`.dev/constraints.md`](../.dev/constraints.md)). Règles reprises de BlocusApp, où elles ont été mesurées.
+> Cible provisoire : un **petit public** (quelques dizaines à quelques centaines d'inscrits, pic de ~20 simultanés), sur les offres gratuites (voir
+> [`.dev/constraints.md`](../.dev/constraints.md)). Règles reprises de BlocusApp, où elles ont été mesurées pour un public plus grand (~1 000 inscrits) : à cette échelle de DrawToday elles sont
+> des **garde-fous peu coûteux**, pas des urgences ; ne pas y sacrifier la simplicité.
 
 ## Ce qui coûte (Vercel Hobby, Supabase Free)
 

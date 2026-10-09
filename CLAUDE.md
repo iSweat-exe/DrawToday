@@ -3,7 +3,9 @@
 DrawToday: a PWA to learn drawing (exercises, tips, videos…). Next.js (App Router) + React + TypeScript +
 Tailwind CSS 4 + Supabase, deployed on Vercel (free tiers only). Mobile-first PWA (iOS + Android).
 Same stack, tooling and rules as BlocusApp (see `docs/adr/0002-tooling-from-blocusapp.md`).
-Load target (provisional, to confirm in `.dev/decisions-a-valider.md`): ~1000 users, ~200 concurrent.
+Expected audience: a **small** community (a few dozen to a few hundred users, a handful online at once; provisional,
+to confirm in `.dev/decisions-a-valider.md`). Free tiers are comfortable at this size: keep the code simple, do not
+over-engineer for scale.
 
 Also read [AGENTS.md](./AGENTS.md): this Next.js version has breaking changes, check
 `node_modules/next/dist/docs/` before using any Next.js API.
@@ -55,7 +57,9 @@ npm run db:start     # local Supabase (Docker) / db:reset / db:test (pgTAP) / db
 - Permissions are enforced in the database (RLS + SQL functions) **and** re-checked server-side.
   The UI only hides things; it never grants anything.
 - Every table has RLS enabled (deny by default) and a test for allowed/denied access.
-- Pinch zoom is never disabled (accessibility, and learners zoom in on drawings).
+- The **page** zoom is disabled on purpose (native-app feel, owner decision 2026-10-09: `maximum-scale=1`, `NoZoom`,
+  `touch-action`). Anything the learner must zoom (drawings, reference images) goes through the in-app zoom viewer;
+  never re-enable page zoom, never ship an image that cannot be enlarged.
 
 ## Hard prohibitions
 
@@ -81,8 +85,9 @@ npm run db:start     # local Supabase (Docker) / db:reset / db:test (pgTAP) / db
 
 When behaviour, schema, permissions or conventions change, update in the **same PR**:
 `docs/architecture.md`, `docs/database.md`, `docs/permissions.md`, `docs/security.md`,
-`docs/runbook.md`, the checklist, and add an ADR in `docs/adr/` for structural decisions.
+`docs/runbook.md`, the checklist, and add an ADR in `docs/adr/` for structural decisions. When an exercise, a path,
+a challenge or the XP rules change, update `docs/pedagogie/` (the single source of truth for what the app teaches).
 
 ## Recipes
 
-Reusable step-by-step prompts live in `.dev/prompts/` (create a migration, add a permission, add a page).
+Reusable step-by-step prompts live in `.dev/prompts/` (create a migration, add a page, add a feature domain).
