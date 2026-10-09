@@ -39,7 +39,7 @@
 - [~] **O-021** `commitlint` + `husky` : hook `commit-msg` qui rejette les messages invalides — _commit non conforme impossible_
 - [~] **O-022** Hook `pre-commit` (`lint-staged` : eslint + prettier) — _rapide (< 10 s)_
 - [~] **O-023** Stratégie de branches : `main` (protégée, = prod), branches `feat/…`, `fix/…`, `docs/…`, `chore/…` — _nommage documenté_
-- [ ] **O-024** Protection de `main` : PR obligatoire, 1 review min, checks CI requis (Quality, Conventional Commits, PR title, Secret scan, Dependency audit, End-to-end tests, Database tests), pas de force-push, historique linéaire (squash merge) — _réglages GitHub à appliquer après le premier push_
+- [~] **O-024** Protection de `main` : PR obligatoire (squash), checks CI requis (Quality, Conventional Commits, PR title, Secret scan, Dependency audit, End-to-end tests), pas de force-push, historique linéaire — _rulesets prêts à importer (`.github/rulesets/`, `docs/repository-setup.md`) ; reste : les importer dans GitHub. Mainteneur seul : 0 approbation (on ne peut pas approuver sa propre PR) ; « Database tests » non requis car filtré par chemins_
 - [~] **O-025** Template de PR (`.github/pull_request_template.md`) : description, lien issue, checklist (tests, docs, migration, RLS) — _affiché à chaque PR_
 - [~] **O-026** Templates d'issues (bug, feature, tâche LLM) + labels versionnés (`.github/labels.yml`), synchronisés et posés automatiquement (type, area, size…), cf. `docs/git-workflow.md` — _labels créés sur GitHub au premier passage du workflow « Sync labels » sur `main`_
 - [~] **O-027** `CODEOWNERS` : les dossiers sensibles (`supabase/`, auth, serveur, `.github/`) nécessitent un reviewer désigné 🔒 — _fichier actif ; exiger la review des code owners dans la protection de `main`_
@@ -53,7 +53,7 @@
 - [~] **O-033** Audit des dépendances (`npm audit --omit=dev` + Dependabot hebdo) — _PRs automatiques hebdo_
 - [~] **O-034** Migrations Supabase testées en CI sur une base jetable (`supabase start` + `supabase test db`, pgTAP) — _`.github/workflows/supabase.yml` ; à valider sur la première PR touchant `supabase/**`_
 - [ ] **O-034b** Migrations appliquées **automatiquement en production** après fusion sur `main` (`supabase db push`, environnement GitHub `production` avec approbation, secrets `SUPABASE_*`) 🔒 — _workflow prêt ; reste : créer l'environnement et les secrets (réglages GitHub), cf. `docs/runbook.md`_
-- [ ] **O-035** Déploiement : production uniquement depuis `main`, aucune preview (quota Hobby) — _vérifié après O-007_
+- [~] **O-035** Déploiement : production uniquement depuis `main`, aucune preview (quota Hobby) — _verrous dans `vercel.json` (`git.deploymentEnabled` + `ignoreCommand`, testés) ; reste : vérifier avec une branche de test après O-007 (`docs/repository-setup.md`, § 5)_
 
 ## Étape 0.5 — Organisation multi-développeurs avec LLMs
 - [~] **O-040** `CLAUDE.md` (et `AGENTS.md` pointant vers le même contenu) à la racine : stack, commandes, conventions, interdits — _un LLM peut coder sans contexte oral_
@@ -81,6 +81,8 @@
 - [~] **O-062** Tests des politiques RLS (pgTAP dans `supabase/tests/database/`) : chaque table a un test « accès autorisé / refusé » 🔒 — _test global « toutes les tables ont la RLS » en place ; obligatoire pour toute nouvelle table_
 - [~] **O-063** Seuil de couverture minimal sur `lib/` et `server/` (70 %) — _CI_
 - [~] **O-064** Test de charge k6 (200 utilisateurs) — _`load/` + `docs/load-testing.md` ; à brancher sur les vraies pages et données (jamais contre la production)_
+
+- [~] **O-066** Guide de configuration du dépôt pour un mainteneur seul (`docs/repository-setup.md`), politique de sécurité (`.github/SECURITY.md`), rulesets importables et testés 🆕 — _à appliquer à la main dans GitHub / Vercel / Supabase, liste de contrôle en fin de guide_
 
 ## Étape 0.8 — Sécurité & opérations de base
 - [~] **O-070** Gestion des secrets : variables Vercel + `.env.local` ; rotation documentée — _`docs/runbook.md`_
