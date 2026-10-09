@@ -28,7 +28,7 @@ has_priority=false
 area="$(section "Area")"
 case "$area" in
   auth | database | exercises | tips | videos | progress | profile | settings | \
-    health | ui | pwa | accessibility | infra | docs) labels+=("area: $area") ;;
+    health | ui | pwa | pedagogy | accessibility | infra | docs) labels+=("area: $area") ;;
 esac
 
 platform="$(section "Platform")"

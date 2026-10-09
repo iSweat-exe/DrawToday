@@ -48,12 +48,12 @@ crée les manquants, renomme ceux listés en `aliases` et ne supprime rien.
 | Famille      | Exemples                                                                         | Posé par                                        |
 | ------------ | -------------------------------------------------------------------------------- | ----------------------------------------------- |
 | `type:`      | `feature`, `bug`, `refactor`, `perf`, `test`, `docs`, `build`, `ci`, `chore`      | Titre de la PR (Conventional Commit), ou template d'issue |
-| `area:`      | `auth`, `database`, `exercises`, `tips`, `videos`, `progress`, `ui`, `pwa`, `infra`, `docs`…  | Fichiers modifiés (`.github/labeler.yml`), ou liste « Area » du template |
+| `area:`      | `auth`, `database`, `exercises`, `tips`, `videos`, `progress`, `ui`, `pwa`, `pedagogy`, `infra`, `docs`…  | Fichiers modifiés (`.github/labeler.yml`) ; `docs` = PR qui ne change que de la documentation (script) ; ou liste « Area » du template |
 | `priority:`  | `critical`, `high`, `medium`, `low`                                              | Template d'issue, puis tri humain               |
-| `status:`    | `needs-triage`, `needs-info`, `needs-decision`, `ready`, `in-progress`, `needs-review`, `blocked` | Humain (`needs-triage` posé à l'ouverture d'une issue) |
+| `status:`    | `needs-triage`, `needs-info`, `needs-decision`, `ready`, `in-progress`, `needs-review`, `blocked` | PR : automatique (brouillon → `in-progress`, prête → `needs-review`, `blocked` jamais touché). Issue : humain (`needs-triage` posé à l'ouverture) |
 | `size:`      | `XS` (< 10 lignes) à `XL` (≥ 400 lignes : à découper)                             | Automatique (fichiers générés exclus)           |
 | `platform:`  | `ios`, `android`, `desktop`                                                      | Template de bug, ou humain                      |
-| `checklist:` | `organisation` (O-xxx), `application` (A-xxx), et `backlog` (hors v1.0.0)         | ID de checklist du template, ou humain          |
+| `checklist:` | `organisation` (O-xxx), `application` (A-xxx), et `backlog` (hors v1.0.0)         | PR : identifiants `A-xxx` / `O-xxx` de la section « Checklist item » du template (ou fichier de checklist modifié). Issue : champ « Checklist ID » |
 | Marqueurs    | `security`, `breaking change`, `migration`, `free-tier`, `llm-generated`, `needs-tests`, `needs-docs` | Automatique (chemins, titre, case LLM du template de PR) |
 
 Règles :
@@ -64,7 +64,13 @@ Règles :
   tests ou la doc sont ajoutés. `llm-generated` vient de la case du template de PR : ne pas reformuler cette ligne.
 - `security` et `migration` signalent les PR qui exigent la review du code owner (`CODEOWNERS`).
 - Domaines (`area:`) actuels : `auth`, `database`, `exercises`, `tips`, `videos`, `progress`, `profile`, `settings`,
-  `health`, `ui`, `pwa`, `accessibility` (posé à la main), `infra`, `docs`. À adapter quand le périmètre est tranché.
+  `health`, `ui`, `pwa`, `pedagogy`, `accessibility` (posé à la main), `infra`, `docs`. À adapter quand le périmètre est tranché.
+- **Les labels sont posés à l'ouverture de la PR** (et mis à jour à chaque push, édition du titre/de la description,
+  passage brouillon ↔ prête) : rien à faire à la main. Pour avoir `checklist:`, écrire l'identifiant dans la section
+  « Checklist item » du template (les commentaires HTML du template sont ignorés).
+- Le comportement du script `auto-label-pr.sh` est testé (`src/ci/auto-label-pr.test.ts`, avec un faux `gh`), ainsi
+  que la cohérence entre `labels.yml`, `labeler.yml`, les formulaires d'issue et les scripts
+  (`src/ci/labels-consistency.test.ts`).
 - Les labels de Dependabot (`dependencies`, `github_actions`) et de release-please (`autorelease: …`) sont
   gérés par ces outils.
 - Les workflows `Auto label` utilisent `pull_request_target` sans jamais exécuter de code de la PR : ne pas y

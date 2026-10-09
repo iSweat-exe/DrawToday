@@ -41,6 +41,7 @@
 - { name: "area: health", color: "fef2c0", description: "Health page, monitoring, error tracking, analytics" }
 - { name: "area: ui", color: "fef2c0", description: "Design system, shared components, navigation, animations" }
 - { name: "area: pwa", color: "fef2c0", description: "Manifest, service worker, offline, install, push" }
+- { name: "area: pedagogy", color: "fef2c0", description: "What the app teaches: exercises, paths, challenges, XP rules (docs/pedagogie/)" }
 - { name: "area: accessibility", color: "fef2c0", description: "Barrier affecting people with disabilities", aliases: ["accessibility"] }
 - { name: "area: infra", color: "fef2c0", description: "Vercel, Supabase project config, CI/CD, repo tooling" }
 - { name: "area: docs", color: "fef2c0", description: "docs/, .dev/ and the project rules (CLAUDE.md, AGENTS.md)" }

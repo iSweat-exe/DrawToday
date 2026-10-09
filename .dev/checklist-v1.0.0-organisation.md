@@ -83,7 +83,9 @@
 - [x] **O-063** Seuil de couverture minimal sur `lib/` et `server/` (70 %) — _CI_
 - [~] **O-064** Test de charge k6 (pic de 20 utilisateurs, ajustable) — _`load/` + `docs/load-testing.md` ; à brancher sur les vraies pages et données (jamais contre la production)_
 
+- [~] **O-065** Tests de l'automatisation des labels (script `auto-label-pr.sh` avec faux `gh`, cohérence `labels.yml` / `labeler.yml` / formulaires) et labels `area: docs`, `checklist:`, `status:` posés automatiquement à la création des PR 🆕 — _CI à valider ; effet réel visible sur la première PR ouverte_
 - [~] **O-066** Guide de configuration du dépôt pour un mainteneur seul (`docs/repository-setup.md`), politique de sécurité (`.github/SECURITY.md`), rulesets importables et testés 🆕 — _à appliquer à la main dans GitHub / Vercel / Supabase, liste de contrôle en fin de guide_
+- [x] **O-067** Tests unitaires et e2e de l'existant : manifeste, robots/sitemap, pages d'erreur, enregistrement du service worker, `sw.js`, clients Supabase, `next.config` (en-têtes, CSP, caches), installation PWA — _CI_
 
 ## Étape 0.8 — Sécurité & opérations de base
 - [x] **O-070** Gestion des secrets : variables Vercel + `.env.local` ; rotation documentée — _`docs/runbook.md`_
