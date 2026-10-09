@@ -11,6 +11,7 @@ Un ADR n'est jamais supprimé : s'il est remplacé, son statut passe à `Superse
 | [0001](./0001-stack-choice.md)               | Choix de la stack                           | Accepted |
 | [0002](./0002-tooling-from-blocusapp.md)     | Outillage, CI/CD et tests repris de BlocusApp | Accepted |
 | [0003](./0003-design-system-tokens.md)       | Design system centralisé (tokens)           | Proposed |
+| [0004](./0004-design-system-components.md)   | Design system v2 : composants à retour tactile | Accepted |
 
 À venir (décisions bloquantes, voir `.dev/decisions-a-valider.md`) : modèle de rôles et édition du contenu (A-030),
 hébergement des vidéos (A-060), stratégie hors-ligne (A-081), monitoring des erreurs (O-072).

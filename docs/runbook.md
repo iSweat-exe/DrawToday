@@ -75,7 +75,7 @@ Chaque renouvellement écrit aussi 2 lignes dans le journal d'audit d'Auth (voir
 
 Supabase Auth écrit **2 lignes par renouvellement de jeton** (`token_refreshed` et `token_revoked`) dans
 `auth.audit_log_entries`, une table que rien ne purge. À 1000 utilisateurs actifs, cela représente des millions de
-lignes par an : le quota de **500 Mo** de la base gratuite serait atteint en quelques mois.
+lignes par an (beaucoup moins pour un petit public, mais la table n'est jamais purgée) : le quota de **500 Mo** de la base gratuite serait atteint en quelques mois.
 
 **À faire une fois sur le projet hébergé** : tableau de bord Supabase → Authentication → Audit Logs → activer
 « Disable writing auth audit logs to the project database ». Les journaux restent consultables dans le tableau de bord

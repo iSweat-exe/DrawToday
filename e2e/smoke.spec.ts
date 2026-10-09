@@ -19,12 +19,19 @@ test.describe("app shell", () => {
     await expect(page.getByRole("heading", { name: "Page introuvable" })).toBeVisible();
   });
 
-  test("the page can be zoomed (accessibility: zoom is never disabled)", async ({ page }) => {
+  test("the page stays at 100 %: no pinch or double-tap zoom (viewport and touch-action)", async ({
+    page,
+  }) => {
     await page.goto("/");
     const viewport = await page.locator('meta[name="viewport"]').getAttribute("content");
     expect(viewport).toContain("width=device-width");
-    expect(viewport).not.toContain("user-scalable=no");
-    expect(viewport).not.toContain("maximum-scale");
+    expect(viewport).toContain("maximum-scale=1");
+    expect(viewport).toContain("minimum-scale=1");
+    expect(viewport).toContain("user-scalable=no");
+    // iOS Safari ignores the viewport hints: `touch-action` is what it respects.
+    expect(await page.evaluate(() => getComputedStyle(document.documentElement).touchAction)).toBe(
+      "pan-x pan-y",
+    );
   });
 
   test("on a touch screen text fields stay at 16 px, so iOS never zooms in on focus", async ({

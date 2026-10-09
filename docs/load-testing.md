@@ -1,7 +1,8 @@
-# Test de charge (200 utilisateurs simultanés)
+# Test de charge (pic de ~20 utilisateurs simultanés)
 
-Objectif : vérifier qu'un pic de ~200 utilisateurs simultanés ne dégrade pas l'app, et **mesurer** (au lieu
-d'estimer) le coût par page pour le comparer aux quotas gratuits (voir `docs/performance.md`).
+Objectif : vérifier qu'un pic de quelques utilisateurs simultanés (**20 par défaut**, pour un petit public) ne dégrade pas l'app, et **mesurer** (au lieu
+d'estimer) le coût par page pour le comparer aux quotas gratuits (voir `docs/performance.md`). Le nombre d'utilisateurs virtuels se règle
+(`VUS=50 bash load/run-local.sh`) si le public grandit.
 
 ## Règle absolue
 
@@ -15,8 +16,9 @@ Prérequis : Docker démarré et la CLI Supabase (`npx supabase`), sous Linux ou
 tourne dans l'image Docker `grafana/k6` (téléchargée au premier lancement).
 
 ```bash
-bash load/run-local.sh          # palier de 120 s à 200 utilisateurs (durée totale ≈ 3 min + build)
+bash load/run-local.sh          # palier de 120 s à 20 utilisateurs (durée totale ≈ 3 min + build)
 bash load/run-local.sh 300s     # palier plus long
+VUS=50 bash load/run-local.sh   # plus d'utilisateurs virtuels
 ```
 
 Le script : démarre Supabase local (`db reset`), construit et démarre l'app en production locale (`next start`), fait un
@@ -24,13 +26,13 @@ Le script : démarre Supabase local (`db reset`), construit et démarre l'app en
 résumé de k6 est aussi écrit dans `load/last-run.txt` (ignoré par Git).
 
 > **État du socle** : le scénario ne visite que l'accueil (page statique) et le script ne remplit pas la base (aucune
-> table). Il sert de mise en place : le brancher sur les vraies pages et sur le volume cible (≈ 1000 profils et tout le
+> table). Il sert de mise en place : le brancher sur les vraies pages et sur le volume cible (quelques centaines de profils et tout le
 > catalogue) dès les premières fonctionnalités (case O-064). Le script n'a pas pu être exécuté lors de l'initialisation
 > (pas de Docker) : le corriger au premier lancement si besoin.
 
-## Scénario (`load/k6-200-users.js`)
+## Scénario (`load/k6-peak.js`)
 
-200 utilisateurs virtuels arrivent en 30 s, restent au palier (120 s par défaut), puis repartent en 15 s. Chacun
+20 utilisateurs virtuels (réglable) arrivent en 30 s, restent au palier (120 s par défaut), puis repartent en 15 s. Chacun
 parcourt `JOURNEY` (liste de pages) avec des pauses de lecture de 3 à 8 s, puis recommence. Un utilisateur sur cinq est
 connecté si un cookie de session est fourni (`AUTH_COOKIE_NAME`, `AUTH_COOKIE_VALUE`), les autres sont invités. Seuls
 les **documents HTML** sont demandés, donc chaque visite est un rendu complet : c'est le pire cas pour le serveur (en
