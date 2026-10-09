@@ -4,18 +4,22 @@
 > https://supabase.com/pricing · https://vercel.com/pricing · https://supabase.com/docs/guides/realtime/limits
 
 ## Cible
-- Provisoire, reprise de BlocusApp : ~1000 utilisateurs inscrits, ~200 simultanés (pic). **À confirmer**
-  (voir `decisions-a-valider.md`, question 2).
+- **Petit public** : quelques dizaines à quelques centaines d'utilisateurs inscrits, une poignée en ligne en même temps
+  (planification : pic de ~20 simultanés). Provisoire, **à confirmer** (voir `decisions-a-valider.md`, question 2).
+- Conséquence : les offres gratuites sont **confortables** (BlocusApp visait ~1 000 inscrits et ~200 simultanés, d'où ses
+  optimisations poussées). Pour DrawToday, la simplicité prime ; on ne surdimensionne rien. Les vraies contraintes
+  restent : **mise en pause** du projet Supabase par manque d'activité (plus probable avec peu d'utilisateurs), **usage non commercial** de Vercel Hobby, e-mails d'authentification limités, **cron Vercel Hobby : une fois par jour**,
+  sauvegardes à planifier.
 
 ## Limites connues à garder en tête (à confirmer)
 
 | Service | Limite (free) | Impact |
 |---|---|---|
-| Supabase Realtime | ~200 connexions simultanées | Ne pas ouvrir 1 websocket par composant ; pas de Realtime tant qu'aucune fonctionnalité ne l'exige. |
+| Supabase Realtime | ~200 connexions simultanées | Hors de portée avec un petit public ; Realtime reste possible plus tard (un canal par client, jamais un par composant), mais rien ne l'exige aujourd'hui. |
 | Supabase DB | ~500 Mo | Prévoir purge/archivage ; ne jamais stocker d'images/vidéos en base. |
 | Supabase DB | connexions directes limitées | Passer par le pooler (Supavisor), jamais de connexion par requête serverless. |
 | Supabase Storage | ~1 Go de fichiers | **Dessins envoyés par les utilisateurs** : compresser côté client, plafonner la taille, purger. |
-| Supabase egress | ~5 Go/mois | **Les vidéos ne doivent pas être servies depuis Supabase** (une vidéo regardée 1000 fois suffit à épuiser le quota) : voir `decisions-a-valider.md` R2. |
+| Supabase egress | ~5 Go/mois | **Les vidéos ne doivent pas être servies depuis Supabase** (quelques centaines de lectures d'une vidéo suffisent à épuiser le quota) : voir `decisions-a-valider.md` R2. |
 | Supabase projet | mise en pause après ~1 semaine d'inactivité | Cron quotidien `/api/keep-alive` (`vercel.json`) déjà en place. |
 | Supabase Auth | e-mails SMTP par défaut très limités | Configurer un SMTP custom (Resend, Brevo…) avant toute ouverture publique. |
 | Supabase Auth | ≈ 150 renouvellements de jeton par tranche de 5 min et par IP ; **tous partent des IP de Vercel** | Garder le jeton à 1 h (défaut). |
@@ -36,7 +40,7 @@
 5. **Aucun secret côté client** : `service_role` uniquement côté serveur, jamais `NEXT_PUBLIC_`.
 6. **Les médias lourds (vidéos, grandes images) ne passent ni par Vercel ni par Supabase** sans décision écrite (ADR).
 
-## Budget de charge (à mesurer avec `docs/load-testing.md` dès qu'il y a des pages dynamiques)
+## Budget de charge (à mesurer avec `docs/load-testing.md` dès qu'il y a des pages dynamiques ; pic de ~20 utilisateurs)
 
 | Mesure | Budget | Mesuré |
 |---|---|---|
@@ -45,6 +49,6 @@
 | CPU par page rendue | < 25 ms | à mesurer |
 | Poids d'une page | < 100 Ko | à mesurer |
 | Lectures en base par page | < 5 % des pages | à mesurer |
-| CPU actif Vercel (600 000 pages/mois) | < 70 % de ~4 h | à estimer |
+| CPU actif Vercel | < 70 % de ~4 h par mois | à estimer (très large marge attendue) |
 
-Ces budgets sont ceux de BlocusApp, repris comme point de départ.
+Les budgets de latence, d'erreurs, de CPU et de poids de page sont ceux de BlocusApp, repris comme point de départ (ils ne dépendent pas du nombre d'utilisateurs).

@@ -1,4 +1,4 @@
-// Load test: ~200 simultaneous users on a LOCAL build against a LOCAL Supabase (see docs/load-testing.md).
+// Load test: a peak of simultaneous users (20 by default, `VUS=…` to change) on a LOCAL build against a LOCAL Supabase (see docs/load-testing.md).
 // Never point it at the production site: it would burn the free-tier quotas and could get the deployment paused.
 //
 // Each virtual user behaves like a phone user: open a page, read for a few seconds, open another one. Only HTML
@@ -8,7 +8,7 @@ import http from "k6/http";
 import { check, sleep } from "k6";
 
 const BASE_URL = __ENV.BASE_URL || "http://host.docker.internal:3200";
-const VUS = Number(__ENV.VUS || 200);
+const VUS = Number(__ENV.VUS || 20);
 // Optional session cookie value of a signed-in user (`drawtoday-auth`), used by one VU out of five.
 const AUTH_COOKIE_NAME = __ENV.AUTH_COOKIE_NAME || "";
 const AUTH_COOKIE_VALUE = __ENV.AUTH_COOKIE_VALUE || "";

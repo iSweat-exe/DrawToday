@@ -81,7 +81,7 @@
 - [x] **O-061** Tests E2E (Playwright, desktop + mobile, build de production) — _tournent en CI ; ajouter les parcours critiques avec les fonctionnalités_
 - [x] **O-062** Tests des politiques RLS (pgTAP dans `supabase/tests/database/`) : chaque table a un test « accès autorisé / refusé » 🔒 — _test global « toutes les tables ont la RLS » en place ; obligatoire pour toute nouvelle table_
 - [x] **O-063** Seuil de couverture minimal sur `lib/` et `server/` (70 %) — _CI_
-- [~] **O-064** Test de charge k6 (200 utilisateurs) — _`load/` + `docs/load-testing.md` ; à brancher sur les vraies pages et données (jamais contre la production)_
+- [~] **O-064** Test de charge k6 (pic de 20 utilisateurs, ajustable) — _`load/` + `docs/load-testing.md` ; à brancher sur les vraies pages et données (jamais contre la production)_
 
 ## Étape 0.8 — Sécurité & opérations de base
 - [x] **O-070** Gestion des secrets : variables Vercel + `.env.local` ; rotation documentée — _`docs/runbook.md`_

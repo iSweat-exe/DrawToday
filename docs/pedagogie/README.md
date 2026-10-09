@@ -26,6 +26,7 @@ progrès ; l'essentiel du dessin se fait **sur papier**, devant l'écran (décis
 | [`defis.md`](./defis.md) | Défis quotidiens, hebdomadaires, boss et mensuels, grille d'auto-évaluation, **31 consignes originales** | Produit, contenu |
 | [`gamification.md`](./gamification.md) | XP, niveaux, objectifs hebdomadaires, badges, récompenses, garde-fous, esquisse des données | Produit, UX, données |
 | [`integration-app.md`](./integration-app.md) | Comment tout cela devient des écrans, des contenus et des cases de checklist ; contraintes PWA, droits d'images, confidentialité | Tous |
+| [`../roadmap.md`](../roadmap.md) | La **feuille de route** : tout ce qui est prévu pour DrawToday, par domaine et par phase | Tous |
 | [`sources.md`](./sources.md) | Les références, le **niveau de confiance** de chacune et ce qui reste à vérifier | Tous |
 
 ## Les 12 principes de conception

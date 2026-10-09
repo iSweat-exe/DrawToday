@@ -113,15 +113,16 @@ Un dessin photographié appartient à l'élève ; il peut contenir un visage, un
 - `Permissions-Policy` : la caméra est coupée aujourd'hui (`camera=()`) ; un `<input type="file" capture>` n'a probablement pas besoin de cette permission (**à vérifier**) ; ne l'ouvrir que si l'on passe par `getUserMedia`.
 
 **Le quota de stockage est le vrai problème.** Estimation (à mesurer) : une photo réencodée ≈ 100 à 150 Ko. Si chaque élève envoie ~20 photos (3 bilans M2 × 3 images + 8 défis + 2 boss) :
-≈ 2 à 3 Mo par élève, soit **2 à 3 Go pour 1 000 élèves**, pour un quota gratuit d'environ **1 Go** (`.dev/constraints.md`). Options :
+≈ 2 à 3 Mo par élève, soit **≈ 300 Mo pour 100 élèves** et **≈ 1 Go à ~350 élèves**, pour un quota gratuit d'environ **1 Go** (`.dev/constraints.md`).
+Avec un **petit public** (quelques dizaines à quelques centaines d'élèves), le quota n'est donc **pas** un obstacle ; il le deviendrait si le public grandissait. Options :
 
 | Option | Avantages | Inconvénients |
 | --- | --- | --- |
 | **A. Photos sur l'appareil seulement** (IndexedDB) | Gratuit, privé, aucun quota | Perdues si l'appareil change ; pas de partage ; pas dans le RGPD « données hébergées » |
-| **B. Sauvegarde cloud plafonnée** (ex. 6 à 8 photos par élève, sélection manuelle) | Reste dans ~1 Go à 1 000 élèves | Choix à faire par l'élève ; purge à prévoir |
+| **B. Sauvegarde cloud plafonnée** (ex. 20 photos par élève) | Reste sous ~1 Go jusqu'à ~350 élèves ; sauvegarde de l'avant/après | Choix à faire par l'élève ; purge à prévoir |
 | **C. Stockage externe** avec plus de gratuit (ex. un service objet à l'offre généreuse) | Plus de place | **Nouvelle dépendance** (à valider), CSP, coûts si dépassement |
 
-**Recommandation provisoire** : **A par défaut**, **B pour les photos de bilan (M2) et de boss** (celles qui servent au avant/après), à trancher dans un ADR (A-044).
+**Recommandation provisoire** (petit public) : **B** — photos facultatives, **plafonnées à ~20 par élève**, supprimables ; l'option A (appareil seulement) reste le **mode sans compte**. À trancher dans un ADR (A-044) ; surveiller le quota (`docs/runbook.md`).
 
 ## Contraintes d'âge et de consentement
 

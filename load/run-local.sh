@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Local load test: starts a local Supabase, builds and starts the app, runs the k6 scenario (200 virtual users)
+# Local load test: starts a local Supabase, builds and starts the app, runs the k6 scenario (20 virtual users by default, `VUS=50 bash load/run-local.sh` for more)
 # through Docker, and prints the CPU and database cost. See docs/load-testing.md.
 #
 # Usage: bash load/run-local.sh [hold-duration, default 120s]
@@ -17,7 +17,7 @@ case "$API_URL" in
   *) echo "Refusing to run: the database is not local ($API_URL)"; exit 1 ;;
 esac
 
-# TODO(A-xxx): insert the target volume here (1000 profiles, and the exercises, tips and videos of the catalogue)
+# TODO(A-xxx): insert the target volume here (a few hundred profiles, and the exercises, tips and videos of the catalogue)
 # with a single SQL script through `docker exec supabase_db_DrawToday psql -U postgres -q -c "..."`, so that the test
 # measures realistic queries. Nothing to seed while the schema has no table.
 
@@ -42,8 +42,8 @@ cpu_seconds() {
 }
 CPU_BEFORE=$(cpu_seconds)
 
-docker run --rm -i --add-host=host.docker.internal:host-gateway -e HOLD="$HOLD" -e BASE_URL="http://host.docker.internal:$PORT" \
-  grafana/k6 run --quiet - <load/k6-200-users.js | tee load/last-run.txt
+docker run --rm -i --add-host=host.docker.internal:host-gateway -e HOLD="$HOLD" -e VUS="${VUS:-20}" -e BASE_URL="http://host.docker.internal:$PORT" \
+  grafana/k6 run --quiet - <load/k6-peak.js | tee load/last-run.txt
 K6_EXIT=${PIPESTATUS[0]}
 
 CPU_AFTER=$(cpu_seconds)

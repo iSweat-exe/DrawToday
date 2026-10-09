@@ -83,14 +83,14 @@ DrawToday est une **application PWA pour apprendre à dessiner** :
 - [~] **A-080** Manifest et icônes — _socle : icônes **provisoires** à remplacer par l'identité visuelle_
 - [ ] **A-081** Service worker : stratégie de cache hors-ligne (contenu déjà consulté) + page hors-ligne — _mode avion testé_
 - [ ] **A-082** Invite d'installation (iOS : consignes « Ajouter à l'écran d'accueil » ; Android : `beforeinstallprompt`) — _testé sur de vrais téléphones_
-- [ ] **A-083** Notifications push (rappel quotidien) 🆕 — _recherche iOS (PWA installée uniquement) avant d'implémenter_
+- [ ] **A-083** Notifications push iOS et Android (rappel quotidien) 🆕 — _ADR avant de coder : iOS 16.4+ et appli installée, permission sur geste ; cron Vercel Hobby = 1 fois/jour (planification via `pg_cron` ? à vérifier) ; voir `docs/roadmap.md`, domaine 16_
 - [ ] **A-084** Lighthouse PWA ≥ 90 — _rapport consigné_
 - [ ] **A-085** Chronomètre de séance en arrière-plan : heure de début (pas un compteur), écran maintenu allumé (Wake Lock), signal de fin de bloc 🆕 — _support iOS à vérifier sur un vrai appareil_
 
 ## Étape 1.9 — Performance & charge ⚡
 - [ ] **A-090** Cache serveur des données publiques, invalidation par `updateTag()` — _règles dans `docs/performance.md`_
 - [ ] **A-091** Budget de page (< 100 Ko) et stratégie d'images (voir `constraints.md`) — _mesuré_
-- [ ] **A-092** Test de charge k6 avec les volumes cibles (`load/`) — _seuils de `docs/load-testing.md` respectés_
+- [ ] **A-092** Test de charge k6 (pic de ~20 utilisateurs) avec les volumes cibles (`load/`) — _seuils de `docs/load-testing.md` respectés_
 - [ ] **A-093** Analytics (échantillonnée) 🆕 — _décision RGPD + quota ; CSP à jour_
 
 ## Étape 1.10 — Qualité, conformité et release
@@ -103,6 +103,7 @@ DrawToday est une **application PWA pour apprendre à dessiner** :
 ---
 
 ## Backlog (hors v1.0.0)
+> La liste complète des évolutions futures (priorités, phases, dépendances) est dans [`docs/roadmap.md`](../docs/roadmap.md).
 - 🆕 Partage public de dessins, galerie, retours entre apprenants ; **défis collectifs** (objectif commun de la semaine).
 - 🆕 **Canevas de dessin dans l'application** (stylet, pression, annulation) : produit à part, voir question 13.
 - 🆕 Retour automatique sur un dessin (IA ou communauté) : aucune étude trouvée sur l'efficacité du retour entre pairs en dessin débutant (`docs/pedagogie/sources.md`).
