@@ -86,6 +86,7 @@ DrawToday est une **application PWA pour apprendre à dessiner** :
 - [ ] **A-083** Notifications push iOS et Android (rappel quotidien) 🆕 — _ADR avant de coder : iOS 16.4+ et appli installée, permission sur geste ; cron Vercel Hobby = 1 fois/jour (planification via `pg_cron` ? à vérifier) ; voir `docs/roadmap.md`, domaine 16_
 - [ ] **A-084** Lighthouse PWA ≥ 90 — _rapport consigné_
 - [~] **A-086** **Zoom de la page bloqué** (iPhone et Android) : `viewport`, `NoZoom`, `touch-action` — _tests unitaires et e2e ; CI à valider_
+- [~] **A-088** **Design system v2** : composants à retour tactile (Button, Switch, SegmentedControl, ProgressRing/Bar, Skeleton, EmptyState) et guide de style `/design-system` 🆕 — _tests unitaires et e2e (zones tactiles ≥ 40 px, retour au toucher, mouvement réduit) ; suite : TabBar, Toast, BottomSheet, célébration, visionneuse_
 - [ ] **A-087** **Visionneuse zoomable** (pincement, double toucher, glisser) pour les dessins et les images de référence, contrepartie du zoom bloqué 🆕 — _testée sur de vrais téléphones_
 - [ ] **A-085** Chronomètre de séance en arrière-plan : heure de début (pas un compteur), écran maintenu allumé (Wake Lock), signal de fin de bloc 🆕 — _support iOS à vérifier sur un vrai appareil_
 

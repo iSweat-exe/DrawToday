@@ -13,7 +13,11 @@ export default defineConfig({
     include: ["src/**/*.test.{ts,tsx}"],
     coverage: {
       provider: "v8",
-      include: ["src/lib/**/*.{ts,tsx}", "src/server/**/*.{ts,tsx}"],
+      include: [
+        "src/lib/**/*.{ts,tsx}",
+        "src/server/**/*.{ts,tsx}",
+        "src/components/**/*.{ts,tsx}",
+      ],
       // Thin framework wrappers (covered by end-to-end tests) and generated code.
       exclude: ["src/lib/supabase/**", "src/lib/database.types.ts", "**/*.test.{ts,tsx}"],
       thresholds: { lines: 70, functions: 70, branches: 70, statements: 70 },

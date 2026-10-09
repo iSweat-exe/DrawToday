@@ -69,6 +69,8 @@ hauteur de bouton : utiliser les tokens et classes partagées. Ajouter un token 
 | Champs de formulaire  | `.field`, `.field-label`, `.field-error`                                      |
 | Titres                | `.page-title`, `.section-title`                                               |
 
+Les **composants** (`Button`, `Switch`, `SegmentedControl`, `ProgressRing`…) sont décrits dans [`design-system.md`](./design-system.md) ; on les utilise avant d'en créer d'autres.
+
 La couleur d'accent du socle est provisoire (identité visuelle à choisir).
 
 ## TypeScript / qualité
