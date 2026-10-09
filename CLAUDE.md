@@ -85,4 +85,4 @@ When behaviour, schema, permissions or conventions change, update in the **same 
 
 ## Recipes
 
-Reusable step-by-step prompts live in `.dev/prompts/` (create a migration, add a permission, add a page).
+Reusable step-by-step prompts live in `.dev/prompts/` (create a migration, add a page, add a feature domain).

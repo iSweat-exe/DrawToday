@@ -17,7 +17,7 @@ DrawToday est une **application PWA pour apprendre à dessiner** :
 ---
 
 ## Étape 1.1 — Schéma de base & fondations BDD
-- [~] **A-001** Migrations Supabase versionnées dans `supabase/migrations/` (jamais d'édition manuelle en prod) — _`supabase db reset` rejoue tout_ (socle : `keep_alive`)
+- [x] **A-001** Migrations Supabase versionnées dans `supabase/migrations/` (jamais d'édition manuelle en prod) — _`supabase start` rejoue tout en CI_ (socle : `keep_alive`)
 - [ ] **A-002** Table `profiles` liée à `auth.users` (id, pseudo unique, avatar_url, created_at, updated_at) + trigger de création à l'inscription — _inscription crée un profil_
 - [ ] **A-003** Modèle de contenu : `exercises`, `tips`, `videos` (+ niveaux, catégories/tags) — _schéma documenté dans `docs/database.md`_
 - [ ] **A-004** Index sur toutes les colonnes filtrées/jointes ⚡ — _`EXPLAIN` sur requêtes clés_
@@ -30,7 +30,7 @@ DrawToday est une **application PWA pour apprendre à dessiner** :
 - [ ] **A-012** SMTP custom configuré (limite e-mails du free tier) — _e-mails reçus_
 - [ ] **A-013** CAPTCHA (Turnstile/hCaptcha) + protection contre mots de passe fuités sur signup/login 🆕 — _bots bloqués_
 - [~] **A-014** `src/proxy.ts` : rafraîchit la session (fait) ; protège les routes privées (reste) — _route privée inaccessible déconnecté_
-- [~] **A-015** **RLS activée sur TOUTES les tables du schéma `public`**, « deny by default » — _test pgTAP `rls_enabled` en place ; CI à valider_
+- [x] **A-015** **RLS activée sur TOUTES les tables du schéma `public`**, « deny by default » — _test pgTAP `rls_enabled` exécuté en CI_ (à rester vrai pour chaque nouvelle table)
 - [ ] **A-016** Politiques RLS écrites par table (select/insert/update/delete séparées), avec `(select auth.uid())` ⚡ — _tests pgTAP accès OK/KO_
 - [ ] **A-017** `service_role` utilisée uniquement côté serveur (`src/server/`), jamais exposée — _grep CI sur `NEXT_PUBLIC_`_
 - [ ] **A-018** Vérifier que `anon` n'a aucun droit inattendu (`REVOKE` explicite) — _audit des grants_
