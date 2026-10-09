@@ -14,6 +14,16 @@
    tests : pour chaque rôle, la permission est autorisée ou refusée comme prévu.
 5. **Hiérarchie** (si plusieurs rôles d'administration) : on ne peut pas agir sur un rôle supérieur ou égal au sien.
 
+## Invité et connecté (ADR 0005)
+
+| Qui | Session | Peut |
+| --- | --- | --- |
+| **Invité** | aucune (rôle `anon`) | lire le contenu public ; **rien n'est écrit en base** : ce qu'il fait reste sur son appareil |
+| **Connecté** (Discord, GitHub) | oui (rôle `authenticated`) | lire et, avec ses propres politiques RLS, écrire **ses** données |
+
+L'interface ne fait que présenter cette différence (`getCurrentAccount()`, `GuestNotice`) : c'est la RLS qui refuse l'écriture à `anon`
+(chaque nouvelle table a son test pgTAP « accès refusé à anon », A-016). Les connexions anonymes de Supabase restent désactivées.
+
 ## Pistes (à trancher dans l'ADR)
 
 | Option | Quand | Coût |

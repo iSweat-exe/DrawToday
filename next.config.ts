@@ -8,6 +8,12 @@ const supabaseOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL
   : "https://*.supabase.co";
 const supabaseWs = supabaseOrigin.replace(/^https:/, "wss:");
 
+// Profile pictures served by the sign-in providers (Discord, GitHub). Keep in sync with `AVATAR_HOSTS`
+// (src/lib/auth/account.ts); src/ci/next-config.test.ts checks it.
+const avatarOrigins = ["https://cdn.discordapp.com", "https://avatars.githubusercontent.com"].join(
+  " ",
+);
+
 // Content Security Policy. Any new external origin (video host, image CDN, analytics, avatars of an OAuth
 // provider...) must be added here in the same PR that introduces it (see docs/security.md).
 // NOTE: 'unsafe-inline' scripts are required by Next.js unless nonces are used, which would make
@@ -16,7 +22,7 @@ const contentSecurityPolicy = [
   "default-src 'self'",
   `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
-  `img-src 'self' data: blob: ${supabaseOrigin}`,
+  `img-src 'self' data: blob: ${supabaseOrigin} ${avatarOrigins}`,
   "font-src 'self' data:",
   `connect-src 'self' ${supabaseOrigin} ${supabaseWs}${isDev ? " ws://localhost:*" : ""}`,
   "worker-src 'self'",

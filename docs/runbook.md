@@ -28,6 +28,25 @@ Ce que le dépôt ne peut pas faire seul (les réglages détaillés et la liste 
 7. **Moniteur externe** (O-075) : sonde HTTP gratuite (UptimeRobot, Better Stack…) sur `https://<prod>/api/health`
    toutes les 5 min, alerte si le code n'est pas 200.
 
+## Connexion Discord et GitHub (A-011)
+
+Deux applications OAuth, une par provider et par environnement (dev local, prod). Le **callback** à déclarer chez le provider est
+celui de **Supabase** : `<URL du projet Supabase>/auth/v1/callback` (en local : `http://127.0.0.1:54321/auth/v1/callback`).
+
+1. **GitHub** — Settings → Developer settings → OAuth Apps → New OAuth App : « Authorization callback URL » = le callback ci-dessus. Noter le *Client ID*, générer un *Client secret*.
+2. **Discord** — discord.com/developers/applications → New Application → OAuth2 : ajouter le même callback dans « Redirects ». Noter *Client ID* et *Client Secret*.
+3. **En local** (Supabase via Docker) : créer le fichier **`supabase/.env`** (ignoré par Git, jamais commité) avec
+   `SUPABASE_AUTH_EXTERNAL_DISCORD_CLIENT_ID`, `SUPABASE_AUTH_EXTERNAL_DISCORD_SECRET`, `SUPABASE_AUTH_EXTERNAL_GITHUB_CLIENT_ID`,
+   `SUPABASE_AUTH_EXTERNAL_GITHUB_SECRET`, puis `npm run db:start` (ou `supabase stop` puis `start` si la pile tournait déjà). Sans ces
+   variables la pile démarre (la CI aussi), mais les boutons mènent à une page d'erreur du provider (l'identifiant n'est pas substitué).
+   Dans `.env.local` : `NEXT_PUBLIC_SITE_URL=http://localhost:3000` (l'URL de retour en dépend ; utiliser `localhost`, pas `127.0.0.1`, pour garder les mêmes cookies).
+4. **Prod** — Supabase → Authentication → Providers : activer GitHub et Discord avec leurs identifiants ; Authentication → URL Configuration :
+   *Site URL* = l'URL de production, *Redirect URLs* = `https://<prod>/auth/callback`. Sur Vercel : `NEXT_PUBLIC_SITE_URL` = l'URL de production.
+5. Vérifier : `/connexion` → « Continuer avec GitHub » → consentement → retour sur `/` avec la photo dans la barre haute ; Profil → « Se déconnecter ».
+
+Un provider ajouté plus tard : une ligne dans `OAUTH_PROVIDERS` (`src/lib/auth/providers.ts`), un bloc `[auth.external.<provider>]` dans `supabase/config.toml`,
+son hôte d'avatar dans la CSP (`next.config.ts`, `AVATAR_HOSTS`) et ce paragraphe.
+
 ## Environnements
 
 | Env  | Supabase        | Vercel                         |

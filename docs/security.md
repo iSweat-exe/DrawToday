@@ -36,6 +36,20 @@ de violation de la CSP. Toute nouvelle origine externe (hébergeur de vidéos, C
 provider OAuth) doit être ajoutée explicitement à la CSP dans la même PR. `Permissions-Policy` coupe caméra, micro,
 géolocalisation et paiement : n'activer `camera=(self)` qu'avec la fonctionnalité qui en a besoin.
 
+## Connexion OAuth (Discord, GitHub)
+
+- Flux **PKCE** côté serveur : le code d'autorisation est échangé par `/auth/callback`, la session vit dans des cookies
+  (`drawtoday-auth`) posés par le client Supabase serveur.
+- Le provider reçu d'un formulaire est validé contre une **liste fermée** (`isOAuthProvider`) avant tout appel ; l'URL de retour est
+  construite côté serveur (`getSiteUrl()`), jamais depuis la requête, et doit figurer dans les **Redirect URLs** du projet Supabase.
+- Il n'existe **aucun paramètre `next`** : après la connexion on revient toujours à `/` (pas de redirection ouverte). À ajouter avec A-014
+  en n'acceptant que des chemins relatifs.
+- Les messages d'erreur du provider ne sont jamais affichés ni repris dans l'URL : seuls les codes `denied`, `oauth`, `provider` existent.
+- Les photos de profil viennent de `cdn.discordapp.com` et `avatars.githubusercontent.com` (CSP `img-src`) ; l'URL est revalidée
+  (`https`, hôte autorisé) avant d'être affichée, avec `referrerPolicy="no-referrer"`.
+- Les secrets des applications OAuth ne sont que dans l'environnement (`SUPABASE_AUTH_EXTERNAL_*`), jamais dans le dépôt.
+- La déconnexion ne ferme que la session de l'appareil (`scope: "local"`).
+
 ## Surveillance
 
 `/api/health` est public et ne renvoie que `{ "status": "ok" | "down" }` (jamais de mesure, de compteur ni de

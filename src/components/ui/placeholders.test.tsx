@@ -4,12 +4,16 @@ import { EmptyState } from "./empty-state";
 import {
   BookIcon,
   CheckIcon,
+  ChevronRightIcon,
+  ClockIcon,
   CloseIcon,
   FlameIcon,
   HomeIcon,
+  LightbulbIcon,
   PlusIcon,
   RouteIcon,
   StarIcon,
+  TargetIcon,
   UserIcon,
 } from "./icons";
 import { Skeleton } from "./skeleton";
@@ -71,6 +75,10 @@ describe("icons", () => {
     ["PlusIcon", PlusIcon],
     ["StarIcon", StarIcon],
     ["FlameIcon", FlameIcon],
+    ["ClockIcon", ClockIcon],
+    ["ChevronRightIcon", ChevronRightIcon],
+    ["LightbulbIcon", LightbulbIcon],
+    ["TargetIcon", TargetIcon],
   ])("%s is a decorative 24 px svg that follows the text color", (_name, Icon) => {
     const { container } = render(<Icon />);
     const svg = container.querySelector("svg")!;

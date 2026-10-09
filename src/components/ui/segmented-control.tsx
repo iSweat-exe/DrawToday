@@ -56,11 +56,14 @@ export function SegmentedControl<T extends string>({
     <div
       role="radiogroup"
       aria-label={label}
-      className={cn("relative flex rounded-control bg-foreground/10 p-1", className)}
+      className={cn(
+        "relative flex rounded-control border-2 border-outline bg-card p-1 shadow-sticker-sm",
+        className,
+      )}
     >
       <span
         aria-hidden="true"
-        className="absolute top-1 bottom-1 left-1 rounded-[0.55rem] bg-background shadow-card transition-transform duration-300 ease-spring"
+        className="absolute top-1 bottom-1 left-1 rounded-[0.6rem] border-2 border-outline bg-accent transition-transform duration-300 ease-spring"
         style={{
           width: `calc((100% - 0.5rem) / ${options.length})`,
           transform: `translateX(${selected * 100}%)`,
@@ -79,8 +82,8 @@ export function SegmentedControl<T extends string>({
           onClick={() => select(index)}
           onKeyDown={onKeyDown}
           className={cn(
-            "relative z-10 min-h-control-sm flex-1 rounded-[0.55rem] px-3 text-sm font-semibold transition-colors duration-200 select-none",
-            index === selected ? "text-foreground" : "text-muted",
+            "relative z-10 min-h-control-sm flex-1 rounded-[0.6rem] px-3 font-display text-base font-semibold transition-colors duration-200 select-none",
+            index === selected ? "text-accent-ink" : "text-muted",
           )}
         >
           {option.label}

@@ -47,12 +47,12 @@ questions ouvertes. Document propre à DrawToday : les risques et idées déjà 
 1. Quel est le périmètre exact de la v1.0.0 (exercices, conseils, vidéos… et quoi d'autre : progression, communauté, parcours) ?
 2. ~~Cible de charge~~ **Réponse (2026-10-09) : petit public, pas 1 000 utilisateurs.** À préciser : ordre de grandeur visé (quelques dizaines ? quelques centaines ?) et ouverture publique ou sur invitation.
 3. L'app est-elle commerciale ou le deviendra-t-elle (impact sur Vercel Hobby, R1) ?
-4. Connexion : quels providers (e-mail/mot de passe, Google, Discord…) ? Que voit un invité sans compte ?
+4. ~~Connexion : quels providers ? Que voit un invité ?~~ **Réponse (2026-10-09) : Discord et GitHub, plus un mode invité qui ne sauvegarde rien en ligne** (ADR 0005). Reste : le public visé a-t-il un compte Discord ou GitHub (question 15) ?
 5. Rôles : suffit-il d'« apprenant » et « admin », ou faut-il un RBAC complet ? Qui crée le contenu : l'app, Supabase Studio, des fichiers dans le dépôt ?
 6. Où héberger les vidéos (YouTube/Vimeo en embed, CDN vidéo, autre) ? Vidéos créées par vous ou tierces ?
 7. Langue : interface uniquement en français, ou plusieurs langues (O-019) ? Nom de domaine ?
 8. Région des projets Supabase et Vercel (O-008) ?
-9. Identité visuelle : couleur d'accent, logo, icônes (le socle utilise une couleur indigo et une icône crayon **provisoires**).
+9. Identité visuelle : **proposition livrée (2026-10-09), à valider** : « carnet de croquis » (ADR 0006), prune + soleil + braise, mascotte crayon « Mine ». Reste : le **logo** et les **icônes** de l'application (`public/icons`, toujours provisoires).
 10. Hors-ligne : quels contenus doivent marcher sans réseau (A-081) ?
 11. Analytics et monitoring d'erreurs : oui/non, outil (A-093, O-072) ?
 12. Motivation : valides-tu l'**objectif hebdomadaire** à la place d'une série quotidienne, l'**absence de classement**, et les chiffres de `docs/pedagogie/gamification.md` (XP, niveaux, badges) ?

@@ -23,11 +23,11 @@ export function XpBurst({ amount, caption }: XpBurstProps) {
   return (
     <div className="relative flex flex-col items-center gap-1 py-6 text-center">
       <Confetti active={playing} onDone={() => setPlaying(false)} />
-      <span className="flex size-16 animate-pop items-center justify-center rounded-full bg-reward text-reward-ink shadow-pop">
-        <StarIcon width={32} height={32} />
+      <span className="flex size-20 animate-pop items-center justify-center rounded-full border-2 border-outline bg-reward text-reward-ink shadow-pop">
+        <StarIcon width={40} height={40} fill="currentColor" />
       </span>
       <p
-        className="mt-2 text-4xl font-bold tabular-nums"
+        className="mt-2 font-pixel text-5xl font-bold tabular-nums"
         aria-hidden="true"
         data-testid="xp-amount"
       >

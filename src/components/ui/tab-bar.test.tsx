@@ -47,6 +47,12 @@ describe("TabBar", () => {
     expect(screen.getByRole("link", { name: "Carnet" })).toHaveAttribute("href", "/carnet");
   });
 
+  it("names the landmark, so a second bar on the page can have its own name", () => {
+    render(<TabBar items={ITEMS} label="Exemple" />);
+    expect(screen.getByRole("navigation", { name: "Exemple" })).toBeInTheDocument();
+    expect(screen.queryByRole("navigation", { name: "Navigation principale" })).toBeNull();
+  });
+
   it("marks the tab of the current page", () => {
     pathname = "/parcours/semaine-2";
     render(<TabBar items={ITEMS} />);
@@ -62,12 +68,14 @@ describe("TabBar", () => {
     ).toHaveLength(1);
   });
 
-  it("makes the active tab pop and colors it with the accent", () => {
+  it("makes the active tab a grape sticker that pops in; the others stay quiet", () => {
     render(<TabBar items={ITEMS} activeHref="/carnet" />);
     const active = screen.getByRole("link", { name: "Carnet" });
-    expect(active).toHaveClass("text-accent");
-    expect(active.firstElementChild).toHaveClass("animate-pop");
-    expect(screen.getByRole("link", { name: "Profil" })).toHaveClass("text-faint");
+    expect(active).toHaveClass("text-foreground");
+    expect(active.firstElementChild).toHaveClass("animate-pop", "bg-accent", "border-outline");
+    const idle = screen.getByRole("link", { name: "Profil" });
+    expect(idle).toHaveClass("text-faint");
+    expect(idle.firstElementChild).not.toHaveClass("bg-accent", "animate-pop");
   });
 
   it("gives every tab a comfortable touch target", () => {

@@ -47,12 +47,12 @@ const HAPTIC_BY_TONE: Record<ToastTone, HapticPattern> = {
 const ICON_BY_TONE: Record<ToastTone, ReactNode> = {
   success: <CheckIcon width={20} height={20} />,
   error: <CloseIcon width={20} height={20} />,
-  info: <StarIcon width={20} height={20} />,
+  info: <StarIcon width={20} height={20} fill="currentColor" />,
 };
 const COLOR_BY_TONE: Record<ToastTone, string> = {
-  success: "bg-success/15 text-success",
-  error: "bg-danger/15 text-danger",
-  info: "bg-accent/15 text-accent",
+  success: "bg-success text-accent-ink",
+  error: "bg-danger text-accent-ink",
+  info: "bg-reward text-reward-ink",
 };
 
 function ToastItem({ entry, onDismiss }: { entry: ToastEntry; onDismiss: (id: number) => void }) {
@@ -66,18 +66,18 @@ function ToastItem({ entry, onDismiss }: { entry: ToastEntry; onDismiss: (id: nu
       type="button"
       role={entry.tone === "error" ? "alert" : "status"}
       onClick={() => onDismiss(entry.id)}
-      className="pointer-events-auto flex w-full max-w-sm animate-toast-in items-center gap-3 rounded-card border border-line bg-background p-3 text-left shadow-pop"
+      className="pointer-events-auto flex w-full max-w-sm animate-toast-in items-center gap-3 rounded-card border-2 border-outline bg-card p-3 text-left shadow-pop"
     >
       <span
         className={cn(
-          "flex size-9 shrink-0 items-center justify-center rounded-full",
+          "flex size-10 shrink-0 items-center justify-center rounded-full border-2 border-outline",
           COLOR_BY_TONE[entry.tone],
         )}
       >
         {ICON_BY_TONE[entry.tone]}
       </span>
       <span className="flex flex-col">
-        <span className="text-sm font-semibold">{entry.title}</span>
+        <span className="font-display text-base font-semibold">{entry.title}</span>
         {entry.description && <span className="text-sm text-muted">{entry.description}</span>}
       </span>
     </button>

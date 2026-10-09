@@ -78,7 +78,7 @@ export function BottomSheet({ open, onClose, title, children, className }: Botto
         if (event.target === event.currentTarget) event.currentTarget.close();
       }}
       className={cn(
-        "fixed inset-x-0 top-auto bottom-0 m-0 max-h-[90dvh] w-full max-w-none overflow-y-auto rounded-t-sheet bg-background p-0 text-foreground shadow-pop backdrop:animate-fade-in backdrop:bg-black/40 open:animate-sheet-up",
+        "fixed inset-x-0 top-auto bottom-0 m-0 max-h-[90dvh] w-full max-w-none overflow-y-auto rounded-t-sheet border-t-2 border-outline bg-card p-0 text-foreground shadow-pop backdrop:animate-fade-in backdrop:bg-black/40 open:animate-sheet-up",
         className,
       )}
     >
@@ -91,9 +91,12 @@ export function BottomSheet({ open, onClose, title, children, className }: Botto
           className="-mx-gutter flex cursor-grab touch-none flex-col items-center gap-3 px-gutter pt-1 pb-1 select-none"
           data-testid="sheet-handle"
         >
-          <span aria-hidden="true" className="h-1.5 w-10 rounded-full bg-line-strong" />
+          <span
+            aria-hidden="true"
+            className="h-2 w-12 rounded-full border-2 border-outline bg-card"
+          />
           <div className="flex w-full items-center justify-between">
-            <h2 id={titleId} className="text-lg font-semibold">
+            <h2 id={titleId} className="text-xl font-semibold">
               {title}
             </h2>
             <button
@@ -101,7 +104,7 @@ export function BottomSheet({ open, onClose, title, children, className }: Botto
               aria-label="Fermer"
               onClick={(event) => event.currentTarget.closest("dialog")?.close()}
               onPointerDown={(event) => event.stopPropagation()}
-              className="pressable flex size-11 items-center justify-center rounded-full bg-foreground/10"
+              className="pressable flex size-11 items-center justify-center rounded-full border-2 border-outline bg-background"
             >
               <CloseIcon width={20} height={20} />
             </button>

@@ -25,8 +25,8 @@ DrawToday est une **application PWA pour apprendre à dessiner** :
 - [ ] **A-006** Seed de dev (`supabase/seed.sql`) avec du contenu d'exemple — _documenté_
 
 ## Étape 1.2 — Authentification sécurisée 🔒
-- [~] **A-010** Supabase Auth via `@supabase/ssr` (cookies httpOnly, pas de token en localStorage) — _clients et cookie `drawtoday-auth` en place ; reste le flux de connexion_
-- [ ] **A-011** Connexion / déconnexion — _providers à trancher (question 4) ; parcours E2E OK_
+- [~] **A-010** Supabase Auth via `@supabase/ssr` (cookies, pas de token en localStorage) — _clients, cookie `drawtoday-auth` et flux PKCE (`/auth/callback`) en place ; **à trancher** : les cookies de session de `@supabase/ssr` ne sont pas `httpOnly` par défaut (le client navigateur doit les lire), alors que ce critère le demandait_
+- [~] **A-011** Connexion / déconnexion par **Discord** et **GitHub** (ADR 0005) — _tests unitaires et e2e (le provider est simulé) ; reste à valider avec de vraies applications OAuth (`docs/runbook.md`) ; CI à valider_
 - [ ] **A-012** SMTP custom configuré (limite e-mails du free tier) — _e-mails reçus_
 - [ ] **A-013** CAPTCHA (Turnstile/hCaptcha) + protection contre mots de passe fuités sur signup/login 🆕 — _bots bloqués_
 - [~] **A-014** `src/proxy.ts` : rafraîchit la session (fait) ; protège les routes privées (reste) — _route privée inaccessible déconnecté_
@@ -36,7 +36,7 @@ DrawToday est une **application PWA pour apprendre à dessiner** :
 - [ ] **A-018** Vérifier que `anon` n'a aucun droit inattendu (`REVOKE` explicite) — _audit des grants_
 - [ ] **A-019** Rate limit sur les endpoints d'auth et sur les écritures utilisateur — _429 / `rate_limited` après N essais_
 - [ ] **A-020** Supabase Security Advisor (lints) : corriger tous les warnings 🆕 — _0 warning_
-- [ ] **A-022** Mode invité : consultation du contenu public sans compte (périmètre à décider, question 4) 🆕 🔒 — _un invité ne peut rien écrire (test RLS)_
+- [~] **A-022** Mode invité : visiteur sans session, ce qu'il fait reste sur son appareil (ADR 0005) 🆕 🔒 — _interface et e2e livrés ; reste le test RLS « un invité ne peut rien écrire » avec la première table qui accepte des écritures, et la conservation locale avec A-043_
 
 ## Étape 1.3 — Rôles et gestion du contenu 🔒
 > Décision préalable (ADR) : rôles minimalistes (apprenant / admin) ou RBAC complet comme BlocusApp ? Le contenu
@@ -87,6 +87,10 @@ DrawToday est une **application PWA pour apprendre à dessiner** :
 - [ ] **A-084** Lighthouse PWA ≥ 90 — _rapport consigné_
 - [~] **A-086** **Zoom de la page bloqué** (iPhone et Android) : `viewport`, `NoZoom`, `touch-action` — _tests unitaires et e2e ; CI à valider_
 - [x] **A-088** **Design system v2** : composants à retour tactile (Button, Switch, SegmentedControl, ProgressRing/Bar, Skeleton, EmptyState) et guide de style `/design-system` 🆕 — _tests unitaires et e2e (zones tactiles ≥ 40 px, retour au toucher, mouvement réduit)_
+- [~] **A-113** **Apparence personnalisable et touche rétro** (ADR 0007) : mode Auto / Clair / Sombre, 6 thèmes qui sont des **palettes complètes** (papier, cartes, encre, accent), interrupteur « Touche rétro » (police pixel pour les libellés, relief des boutons, barres en blocs, petites fenêtres), appliqués avant le premier affichage 🆕 — _tests unitaires (lecture tolérante, script d'initialisation = code TypeScript, stockage, carte), test des jetons (14 palettes : thèmes × clair/sombre, contrastes de tous les textes) et e2e (changement de papier, d'accent et d'encre, persistance, centrage de l'interrupteur) ; **reste** : enregistrer le choix avec le compte (A-070), validation du propriétaire (palettes), test sur de vrais téléphones ; CI à valider_
+- [~] **A-112** **Maquettes des quatre écrans** avec données d'exemple (Aujourd'hui, Parcours, Carnet, Profil) pour juger du design final 🆕 — _tests unitaires (cohérence des données avec `docs/pedagogie/`, composants) et e2e (interactions, pas de débordement, zones tactiles) ; **à remplacer** écran par écran par les vraies fonctionnalités (A-042, A-047, A-070, A-074…), voir `docs/architecture.md`_
+- [~] **A-111** **Design ludique** (ADR 0006) : identité « carnet de croquis » (papier, contours d'encre, ombres d'autocollant, Fredoka), mascotte Mine, composants de ludification (`StatPill`, `LevelBadge`, `GoalDots`, `MasteryStars`, `AchievementBadge`), tous les composants restylés 🆕 — _tests unitaires, test des jetons (contrastes, thème sombre) et e2e ; **reste** : icônes de l'application à refaire, validation du propriétaire (couleurs, mascotte), test sur de vrais téléphones ; CI à valider_
+- [~] **A-110** **Coque de l'application** : barre haute (`NavBar`, bouton de compte), barre d'onglets (Aujourd'hui, Parcours, Carnet, Profil) et pages d'attente 🆕 — _tests unitaires et e2e (onglets, barres collées, zones tactiles) ; CI à valider_
 - [~] **A-089** **Design system v2, interactions** : TabBar, Toast, BottomSheet, Confetti, XpBurst et visionneuse zoomable dans le guide de style 🆕 — _tests unitaires (logique pure + composants) et e2e (feuille, tirer pour fermer, toasts, pincement via CDP) ; CI à valider_
 - [~] **A-087** **Visionneuse zoomable** (pincement, double toucher, glisser) pour les dessins et les images de référence, contrepartie du zoom bloqué 🆕 — _composant `ImageViewer` livré et testé (A-089) ; reste à l'utiliser dans les exercices et à tester sur de vrais téléphones_
 - [ ] **A-085** Chronomètre de séance en arrière-plan : heure de début (pas un compteur), écran maintenu allumé (Wake Lock), signal de fin de bloc 🆕 — _support iOS à vérifier sur un vrai appareil_
