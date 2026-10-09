@@ -3,7 +3,9 @@
 DrawToday: a PWA to learn drawing (exercises, tips, videos…). Next.js (App Router) + React + TypeScript +
 Tailwind CSS 4 + Supabase, deployed on Vercel (free tiers only). Mobile-first PWA (iOS + Android).
 Same stack, tooling and rules as BlocusApp (see `docs/adr/0002-tooling-from-blocusapp.md`).
-Load target (provisional, to confirm in `.dev/decisions-a-valider.md`): ~1000 users, ~200 concurrent.
+Expected audience: a **small** community (a few dozen to a few hundred users, a handful online at once; provisional,
+to confirm in `.dev/decisions-a-valider.md`). Free tiers are comfortable at this size: keep the code simple, do not
+over-engineer for scale.
 
 Also read [AGENTS.md](./AGENTS.md): this Next.js version has breaking changes, check
 `node_modules/next/dist/docs/` before using any Next.js API.

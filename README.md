@@ -74,6 +74,7 @@ Détails : [`docs/git-workflow.md`](./docs/git-workflow.md) et [`docs/runbook.md
 - [Base de données](./docs/database.md) · [Permissions](./docs/permissions.md) ·
   [Sécurité](./docs/security.md) · [Performance](./docs/performance.md) · [Runbook](./docs/runbook.md) ·
   [Test de charge](./docs/load-testing.md)
+- [Feuille de route](./docs/roadmap.md) : tout ce qui est prévu (exercices, défis, XP, succès, PWA, notifications…)
 - [Pédagogie du dessin](./docs/pedagogie/README.md) : méthodes, exercices, parcours, défis, XP
 - [Décisions d'architecture (ADR)](./docs/adr/README.md)
 

@@ -153,4 +153,4 @@ impossible.
 - **Objectif commun** : « La communauté trace 10 000 traits cette semaine » ; barre de progression visible par tous. Aucun
   classement individuel. Les méta-analyses de gamification associent l'**association de compétition et de collaboration** à de meilleurs effets sur le
   comportement (Sailer & Homner, 2020) ; on choisit le versant **collaboratif**.
-- Reporté après la v1.0.0 (nécessite des comptes, un compteur partagé et de la modération ; voir Backlog).
+- Reporté après la v1.0.0 : nécessite des comptes, un compteur partagé et de la modération, et n'a de sens que si la communauté est assez grande (avec un petit public, préférer un **défi du mois** que l'équipe commente).

@@ -14,7 +14,7 @@ questions ouvertes. Document propre à DrawToday : les risques et idées déjà 
 | R6 | E-mails d'auth très limités par défaut | SMTP custom indispensable avant l'ouverture publique (A-012). |
 | R7 | Projet Supabase mis en pause si inactif | **Traité** : cron quotidien `/api/keep-alive` (`vercel.json`), reste à définir `CRON_SECRET` (O-074). |
 | R8 | **Zoom autorisé** (différence avec BlocusApp) | BlocusApp bloque le zoom (`user-scalable=no`, `touch-action`). DrawToday ne le fait pas : c'est un défaut d'accessibilité (WCAG 1.4.4) et l'apprenant doit pouvoir zoomer sur un dessin. Décision prise dans le socle ; test E2E à l'appui. |
-| R9 | **Stockage des photos des élèves** | ~100–150 Ko par photo (estimation) ; ~20 photos par élève ≈ 2–3 Go pour 1 000 élèves, pour un quota gratuit d'environ 1 Go : photos sur l'appareil par défaut, cloud plafonné pour les bilans (`docs/pedagogie/integration-app.md`, A-044). |
+| R9 | **Stockage des photos des élèves** | ~100–150 Ko par photo (estimation) ; ~20 photos par élève ≈ 2–3 Mo par élève : **~300 Mo pour 100 élèves**, ~1 Go à ~350 élèves, pour un quota gratuit d'environ 1 Go. Avec un petit public, la sauvegarde cloud plafonnée est **réaliste** ; à surveiller si le public grandit (`docs/pedagogie/integration-app.md`, A-044). |
 | R10 | **Droits des contenus de tiers** | Drawabox, Proko, Ctrl+Paint… sont protégés : on s'en inspire et on cite, on ne copie ni textes ni images. Images de référence : domaine public/CC0 ou les nôtres, licence vérifiée fichier par fichier (`docs/pedagogie/methodes.md`). |
 
 ## Idées ajoutées (🆕)
@@ -45,7 +45,7 @@ questions ouvertes. Document propre à DrawToday : les risques et idées déjà 
 
 ## Questions ouvertes
 1. Quel est le périmètre exact de la v1.0.0 (exercices, conseils, vidéos… et quoi d'autre : progression, communauté, parcours) ?
-2. Cible de charge : on garde ~1000 utilisateurs / ~200 simultanés (valeur de BlocusApp) ?
+2. ~~Cible de charge~~ **Réponse (2026-10-09) : petit public, pas 1 000 utilisateurs.** À préciser : ordre de grandeur visé (quelques dizaines ? quelques centaines ?) et ouverture publique ou sur invitation.
 3. L'app est-elle commerciale ou le deviendra-t-elle (impact sur Vercel Hobby, R1) ?
 4. Connexion : quels providers (e-mail/mot de passe, Google, Discord…) ? Que voit un invité sans compte ?
 5. Rôles : suffit-il d'« apprenant » et « admin », ou faut-il un RBAC complet ? Qui crée le contenu : l'app, Supabase Studio, des fichiers dans le dépôt ?
@@ -59,4 +59,4 @@ questions ouvertes. Document propre à DrawToday : les risques et idées déjà 
 13. Les élèves dessinent-ils **sur papier** (l'application est un entraîneur, recommandé pour la v1.0.0) ou **dans l'application** (canevas : un autre produit) ?
 14. Contenu : qui écrit et illustre les exercices, conseils et schémas ? Où vit-il : **fichiers du dépôt** (recommandé au départ) ou base de données ? Photos de modèles pour le geste : séance photo avec autorisations, œuvres du domaine public, ou renvoi vers des outils externes ?
 15. Public visé : **âge minimal**, présence de mineurs, consentement parental et politique de confidentialité (à déterminer avant l'ouverture).
-16. Photos des élèves : option A (appareil seulement), B (cloud plafonné) ou C (stockage externe) ? Voir R9.
+16. Photos des élèves : option A (appareil seulement), B (cloud plafonné, **suffisant pour un petit public**) ou C (stockage externe) ? Voir R9.

@@ -25,6 +25,12 @@
 | **Compétence** | Étoiles de maîtrise par compétence, comparaison **avant/après**, retour concret après chaque défi, niveaux des exercices adaptés |
 | **Lien** | Carnet partageable (facultatif), défis collectifs (plus tard), crédit aux méthodes et aux auteurs qui nous inspirent |
 
+## Une petite communauté change les choix
+
+DrawToday aura **peu d'utilisateurs** (voir `.dev/constraints.md`). Cela renforce certaines décisions : **aucun classement** (un classement de quelques personnes est gênant, pas motivant),
+objectifs **personnels** (série de semaines, étoiles, avant/après) plutôt que sociaux, défis collectifs **reportés** (un « objectif commun » de 10 000 traits n'a pas de sens à 20 personnes). En contrepartie, une petite
+communauté permet des **retours personnalisés** de l'équipe sur les dessins (voir `docs/roadmap.md`) et des choix de contenu faits avec les utilisateurs.
+
 ## Principes
 
 1. **L'XP récompense le temps de pratique et la régularité, pas le résultat.** Un dessin « raté » rapporte autant qu'un dessin réussi : l'élève n'a aucune raison de bâcler ni de tricher.
