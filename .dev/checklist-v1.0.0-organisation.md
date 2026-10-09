@@ -83,6 +83,8 @@
 - [x] **O-063** Seuil de couverture minimal sur `lib/` et `server/` (70 %) — _CI_
 - [~] **O-064** Test de charge k6 (pic de 20 utilisateurs, ajustable) — _`load/` + `docs/load-testing.md` ; à brancher sur les vraies pages et données (jamais contre la production)_
 
+- [~] **O-065** Tests de l'automatisation des labels (script `auto-label-pr.sh` avec faux `gh`, cohérence `labels.yml` / `labeler.yml` / formulaires) et labels `area: docs`, `checklist:`, `status:` posés automatiquement à la création des PR 🆕 — _CI à valider ; effet réel visible sur la première PR ouverte_
+
 ## Étape 0.8 — Sécurité & opérations de base
 - [x] **O-070** Gestion des secrets : variables Vercel + `.env.local` ; rotation documentée — _`docs/runbook.md`_
 - [~] **O-071** En-têtes de sécurité (CSP, HSTS, X-Frame-Options…) dans `next.config.ts` 🔒 — _vérifié par test E2E ; scanner externe à passer après le premier déploiement_
