@@ -81,7 +81,8 @@ npm run db:start     # local Supabase (Docker) / db:reset / db:test (pgTAP) / db
 
 When behaviour, schema, permissions or conventions change, update in the **same PR**:
 `docs/architecture.md`, `docs/database.md`, `docs/permissions.md`, `docs/security.md`,
-`docs/runbook.md`, the checklist, and add an ADR in `docs/adr/` for structural decisions.
+`docs/runbook.md`, the checklist, and add an ADR in `docs/adr/` for structural decisions. When an exercise, a path,
+a challenge or the XP rules change, update `docs/pedagogie/` (the single source of truth for what the app teaches).
 
 ## Recipes
 

@@ -52,7 +52,7 @@ src/lib/        Code partagé : clients Supabase, utilitaires, couche data
 src/server/     Code exécuté uniquement côté serveur
 supabase/       Migrations, tests SQL (pgTAP), seed, config locale
 e2e/ · load/    Tests end-to-end (Playwright) · test de charge (k6)
-docs/           Documentation technique (architecture, base de données, permissions…)
+docs/           Documentation technique (architecture, base de données, permissions…) et pédagogie (docs/pedagogie/)
 .dev/           Pilotage : checklists v1.0.0, contraintes, décisions, recettes LLM
 ```
 
@@ -74,6 +74,7 @@ Détails : [`docs/git-workflow.md`](./docs/git-workflow.md) et [`docs/runbook.md
 - [Base de données](./docs/database.md) · [Permissions](./docs/permissions.md) ·
   [Sécurité](./docs/security.md) · [Performance](./docs/performance.md) · [Runbook](./docs/runbook.md) ·
   [Test de charge](./docs/load-testing.md)
+- [Pédagogie du dessin](./docs/pedagogie/README.md) : méthodes, exercices, parcours, défis, XP
 - [Décisions d'architecture (ADR)](./docs/adr/README.md)
 
 ## Déploiement

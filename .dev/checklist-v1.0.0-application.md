@@ -46,26 +46,38 @@ DrawToday est une **application PWA pour apprendre à dessiner** :
 - [ ] **A-032** Tests automatisés : pour chaque rôle, chaque permission autorisée/refusée — _matrice testée en CI_
 - [ ] **A-033** Édition du contenu (créer/modifier/publier exercices, conseils, vidéos), si faite dans l'app — _brouillon/publié, auteur_
 
-## Étape 1.4 — Exercices
-- [ ] **A-040** Catalogue d'exercices : liste, filtres (niveau, catégorie), détail — _lecture publique mise en cache (`'use cache'`, profil `feed`)_
-- [ ] **A-041** Étapes d'un exercice : consigne, durée, matériel, images de référence — _page détail complète_
-- [ ] **A-042** « Exercice du jour » 🆕 — _un exercice mis en avant par jour_
-- [ ] **A-043** Marquer un exercice comme fait — _écriture protégée par RLS, limitée en débit_
-- [ ] **A-044** Envoi de son dessin (photo, Supabase Storage) 🆕 — _compression côté client, taille et format plafonnés, quota Storage surveillé (`constraints.md`)_
+## Étape 1.4 — Exercices et séances guidées
+> Contenu et règles : [`docs/pedagogie/`](../docs/pedagogie/README.md) (catalogue de 37 exercices, séance de 30 min, parcours Fondations de 8 semaines).
+- [ ] **A-039** Valider la **semaine de découverte sur papier** avec 5 débutants avant d'écrire le lecteur de séance 🆕 — _7 jours, abandons et incompréhensions relevés, consignes ajustées dans `docs/pedagogie/exercices.md`_
+- [ ] **A-040** Catalogue d'exercices : liste, filtres (famille, compétence, durée, niveau), détail — _lecture publique mise en cache (`'use cache'`, profil `feed`)_
+- [ ] **A-041** Fiche d'exercice : but, matériel, étapes courtes, critères d'auto-contrôle, erreurs fréquentes, version plus difficile (format de `exercices.md`) — _schémas SVG originaux, image zoomable_
+- [ ] **A-042** « Défi du jour » (carte tirée parmi les compétences débloquées) 🆕 — _10 minutes, facultatif_
+- [ ] **A-043** Enregistrer une séance terminée (durée réelle, bloc par bloc) — _écriture protégée par RLS, limitée en débit_
+- [ ] **A-044** Photo facultative du dessin (réencodée côté client, EXIF retiré) 🆕 🔒 — _ADR sur le quota de stockage (`integration-app.md`) avant de coder_
+- [ ] **A-045** Séance guidée : file de séances, 4 blocs (échauffement, cœur, application, revue), **chronomètre fiable**, durée au choix (10 / 15 / 30 / 45 min) 🆕 — _testé sur de vrais téléphones, app en arrière-plan_
+- [ ] **A-046** Revue de séance (M1), écran de fin (XP, prochaine séance) 🆕 — _trois champs courts, animation < 2 s, `prefers-reduced-motion` respecté_
+- [ ] **A-047** Parcours : **Semaine de découverte** (7 × 15 min) et **Fondations** (8 semaines, 40 séances), file et non calendrier 🆕 — _un jour manqué ne saute rien_
+- [ ] **A-048** Carte des compétences et **étoiles de maîtrise** (re-tests espacés à 7 et 28 jours) 🆕 — _règles de `competences.md`_
 
 ## Étape 1.5 — Conseils
-- [ ] **A-050** Liste et détail des conseils, catégories — _lecture publique mise en cache_
+- [ ] **A-050** Liste et détail des conseils, au format **carte conseil** (un concept, < 120 mots, exemple, mini-quiz de 2 questions avec explication) — _lecture publique mise en cache_
 - [ ] **A-051** Recherche (full-text Postgres, index GIN) 🆕 ⚡ — _`EXPLAIN` avec le volume cible_
 - [ ] **A-052** Favoris 🆕 — _par utilisateur, RLS_
+- [ ] **A-053** Rappel espacé : une question d'une ancienne carte, à intervalles croissants 🆕 — _jour 1, 3, 7, 14_
 
 ## Étape 1.6 — Vidéos
 - [ ] **A-060** ADR « hébergement des vidéos » (embed YouTube/Vimeo, CDN vidéo, Supabase Storage) — _décision écrite, quotas chiffrés ; voir `constraints.md`_
 - [ ] **A-061** Liste et lecteur de vidéos ; CSP mise à jour dans la même PR (`frame-src` / `media-src`) — _aucune violation CSP (test E2E)_
 - [ ] **A-062** Sous-titres / transcription (accessibilité) 🆕 — _vidéo utilisable sans le son_
 
-## Étape 1.7 — Progression
-- [ ] **A-070** Historique des exercices faits et statistiques de base — _page profil_
-- [ ] **A-071** Série de jours consécutifs (streak) 🆕 — _calcul côté SQL, fuseau horaire de l'utilisateur_
+## Étape 1.7 — Progression et motivation
+> Règles et chiffres : [`docs/pedagogie/gamification.md`](../docs/pedagogie/gamification.md) et [`defis.md`](../docs/pedagogie/defis.md).
+- [ ] **A-070** Historique des séances et statistiques de base — _page profil_
+- [ ] **A-071** **XP et niveaux** : 3 XP par minute + 10 de revue, plafond 150 XP/jour, niveau = 50 × (n − 1) × (n + 4) 🆕 — _calcul **en base** (fonction SQL), journal d'XP immuable, tests de plafond et d'idempotence_
+- [ ] **A-072** **Objectif hebdomadaire** (3 à 6 séances), série de **semaines**, semaine de grâce, mode pause 🆕 — _fuseau horaire de l'utilisateur ; remplace la série de jours consécutifs_
+- [ ] **A-073** Badges (liste initiale de `gamification.md`) 🆕 — _attribution par la base, aucune récompense aléatoire_
+- [ ] **A-074** **Carnet** : journal, photos privées, comparaison **avant/après** (M2) 🆕 — _quota de stockage respecté (A-044)_
+- [ ] **A-075** **Défis** : D1 à D8 avec grille d'auto-évaluation, mois de 31 consignes, compteurs « Les 100 » 🆕 — _étoiles calculées selon `defis.md`_
 
 ## Étape 1.8 — PWA & hors-ligne
 - [~] **A-080** Manifest et icônes — _socle : icônes **provisoires** à remplacer par l'identité visuelle_
@@ -73,6 +85,7 @@ DrawToday est une **application PWA pour apprendre à dessiner** :
 - [ ] **A-082** Invite d'installation (iOS : consignes « Ajouter à l'écran d'accueil » ; Android : `beforeinstallprompt`) — _testé sur de vrais téléphones_
 - [ ] **A-083** Notifications push (rappel quotidien) 🆕 — _recherche iOS (PWA installée uniquement) avant d'implémenter_
 - [ ] **A-084** Lighthouse PWA ≥ 90 — _rapport consigné_
+- [ ] **A-085** Chronomètre de séance en arrière-plan : heure de début (pas un compteur), écran maintenu allumé (Wake Lock), signal de fin de bloc 🆕 — _support iOS à vérifier sur un vrai appareil_
 
 ## Étape 1.9 — Performance & charge ⚡
 - [ ] **A-090** Cache serveur des données publiques, invalidation par `updateTag()` — _règles dans `docs/performance.md`_
@@ -90,6 +103,10 @@ DrawToday est une **application PWA pour apprendre à dessiner** :
 ---
 
 ## Backlog (hors v1.0.0)
-- 🆕 Partage public de dessins, galerie, retours entre apprenants.
+- 🆕 Partage public de dessins, galerie, retours entre apprenants ; **défis collectifs** (objectif commun de la semaine).
+- 🆕 **Canevas de dessin dans l'application** (stylet, pression, annulation) : produit à part, voir question 13.
+- 🆕 Retour automatique sur un dessin (IA ou communauté) : aucune étude trouvée sur l'efficacité du retour entre pairs en dessin débutant (`docs/pedagogie/sources.md`).
+- 🆕 Parcours suivants : **Nature et vivant**, **Perspective approfondie**, **Figure : geste et mannequin**, **Couleur** (`docs/pedagogie/parcours.md`).
+- 🆕 Vidéos originales de 4 à 8 minutes (une par concept).
 - 🆕 Parcours d'apprentissage structurés (semaines, objectifs).
 - 🆕 Abonnement ou contenu payant (implique le plan Vercel Pro : voir R1 dans `decisions-a-valider.md`).
