@@ -4,7 +4,7 @@ name: Auto label
 # executes code from the PR: it checks out the base branch and only reads the title, the body and the changed files.
 on:
   pull_request_target:
-    types: [opened, edited, synchronize, reopened, ready_for_review]
+    types: [opened, edited, synchronize, reopened, ready_for_review, converted_to_draft]
   issues:
     types: [opened, edited]
 
@@ -42,6 +42,7 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_BODY: ${{ github.event.pull_request.body }}
+          PR_DRAFT: ${{ github.event.pull_request.draft }}
         run: bash .github/scripts/auto-label-pr.sh
 
   issue:

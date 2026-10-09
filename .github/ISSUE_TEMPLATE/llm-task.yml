@@ -26,6 +26,7 @@ body:
         - health
         - ui
         - pwa
+        - pedagogy
         - accessibility
         - infra
         - docs

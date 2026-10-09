@@ -105,15 +105,14 @@
           - playwright.config.ts
           - load/**
 
-# Only for PRs that change nothing but documentation (a feature that updates its docs is not an area: docs PR).
-"area: docs":
+"area: pedagogy":
   - changed-files:
-      - any-glob-to-all-files:
-          - docs/**
-          - .dev/**
-          - CLAUDE.md
-          - AGENTS.md
-          - README.md
+      - any-glob-to-any-file:
+          - docs/pedagogie/**
+          - docs/roadmap.md
+
+# "area: docs" (a PR that changes nothing but documentation) cannot be expressed with globs: it is computed by
+# .github/scripts/auto-label-pr.sh.
 
 # --- flags ---------------------------------------------------------------------------------------------------------
 
