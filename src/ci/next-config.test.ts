@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { AVATAR_HOSTS } from "../lib/auth/account";
 
 type Header = { key: string; value: string };
 type Route = { source: string; headers: Header[] };
@@ -60,6 +61,15 @@ describe("next.config: security headers in production", () => {
     expect(csp).toContain("connect-src 'self' https://abc.supabase.co wss://abc.supabase.co");
     expect(csp).toContain("img-src 'self' data: blob: https://abc.supabase.co");
     expect(csp).not.toContain("*");
+  });
+
+  it("lets the profile pictures of the sign-in providers load, and only those", async () => {
+    const { csp } = await load("production", "https://abc.supabase.co");
+    const imgSrc = csp.split("; ").find((directive) => directive.startsWith("img-src "))!;
+    const origins = imgSrc.split(" ").filter((source) => source.startsWith("https://"));
+    expect(origins.sort()).toEqual(
+      ["https://abc.supabase.co", ...AVATAR_HOSTS.map((host) => `https://${host}`)].sort(),
+    );
   });
 
   it("falls back to any Supabase project when the URL is not set", async () => {

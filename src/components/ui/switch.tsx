@@ -50,7 +50,7 @@ export function Switch({
       )}
     >
       <span className="flex flex-col">
-        <span className="text-base font-medium">{label}</span>
+        <span className="font-display text-base font-semibold">{label}</span>
         {description && (
           <span id={descriptionId} className="text-sm text-muted">
             {description}
@@ -60,14 +60,16 @@ export function Switch({
       <span
         aria-hidden="true"
         className={cn(
-          "relative h-8 w-14 shrink-0 rounded-full transition-colors duration-200",
-          isOn ? "bg-accent" : "bg-line-strong",
+          "relative h-9 w-16 shrink-0 rounded-full border-2 border-outline shadow-sticker-sm transition-colors duration-200",
+          isOn ? "bg-accent" : "bg-card",
         )}
       >
         <span
           className={cn(
-            "absolute top-1 left-1 size-6 rounded-full bg-white shadow-card transition-transform duration-300 ease-spring",
-            isOn && "translate-x-6",
+            // The track is 60 × 32 px inside its border: a 24 px thumb at 4 px from the top and the left, moving by 28 px,
+            // keeps exactly 4 px of room on every side, at rest and at the end of its travel.
+            "absolute top-1 left-1 size-6 rounded-full border-2 border-outline transition-transform duration-300 ease-spring",
+            isOn ? "translate-x-7 bg-reward" : "bg-foreground/20",
           )}
         />
       </span>

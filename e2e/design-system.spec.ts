@@ -31,18 +31,23 @@ test.describe("design system: style guide page", () => {
     expect(primary!.height).toBeGreaterThanOrEqual(47.5);
   });
 
-  test("a button gives instant visual feedback while pressed (it shrinks slightly)", async ({
-    page,
-  }) => {
+  test("a button sinks into its shadow while pressed", async ({ page }) => {
     const button = page.getByRole("button", { name: "Commencer la séance" });
     const box = (await button.boundingBox())!;
+    const offset = () =>
+      button.evaluate((element) => {
+        const style = getComputedStyle(element);
+        return { translate: style.translate, shadow: style.boxShadow };
+      });
+    expect((await offset()).shadow).not.toBe("none");
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
     await page.mouse.down();
-    // The press animation lasts 150 ms: wait for it. Tailwind 4 animates the `scale` property (not `transform`).
-    const scale = () => button.evaluate((element) => Number(getComputedStyle(element).scale));
-    await expect.poll(scale).toBeLessThan(1);
-    expect(await scale()).toBeGreaterThan(0.9);
+    // The press animation lasts 150 ms: wait for it. Tailwind 4 animates the `translate` property (not `transform`).
+    await expect.poll(async () => (await offset()).translate).toBe("3px 3px");
+    // The hard ink shadow is gone (what is left are the transparent defaults of the shadow stack).
+    expect((await offset()).shadow).not.toMatch(/ 3px 3px 0px 0px/);
     await page.mouse.up();
+    await expect.poll(async () => (await offset()).translate).toMatch(/^(none|0px)/);
   });
 
   test("the loading button is busy, then comes back", async ({ page }) => {
@@ -67,6 +72,42 @@ test.describe("design system: style guide page", () => {
     await expect(page.getByTestId("duration-output")).toHaveText("Séance de 10 minutes");
   });
 
+  test("the thumb of a switch is centered in its track, on and off (same room on every side)", async ({
+    page,
+  }) => {
+    const reminder = page.getByRole("switch", { name: /Rappel quotidien/ });
+    const room = () =>
+      reminder.evaluate((element) => {
+        const track = element.querySelector("[aria-hidden='true']")!;
+        const thumb = track.firstElementChild!;
+        const outer = track.getBoundingClientRect();
+        const inner = thumb.getBoundingClientRect();
+        const border = parseFloat(getComputedStyle(track).borderTopWidth);
+        return {
+          top: inner.top - outer.top - border,
+          bottom: outer.bottom - inner.bottom - border,
+          left: inner.left - outer.left - border,
+          right: outer.right - inner.right - border,
+        };
+      });
+    const settled = async () => {
+      // The thumb springs for 300 ms: wait until it stops moving.
+      await page.waitForTimeout(500);
+      return room();
+    };
+
+    for (const state of ["on", "off"]) {
+      if (state === "off") await reminder.click();
+      const space = await settled();
+      // Same room above and below, and the same room at the end where the thumb rests (it has the whole track to travel).
+      expect(space.top, state).toBeGreaterThan(2);
+      expect(space.bottom, state).toBeCloseTo(space.top, 0);
+      expect(Math.min(space.left, space.right), state).toBeCloseTo(space.top, 0);
+      expect(Math.abs(space.left - space.right), state).toBeCloseTo(28, 0);
+      expect(space.right < space.left, state).toBe(state === "on");
+    }
+  });
+
   test("the switch toggles", async ({ page }) => {
     const reminder = page.getByRole("switch", { name: /Rappel quotidien/ });
     await expect(reminder).toBeChecked();
@@ -84,6 +125,77 @@ test.describe("design system: style guide page", () => {
     await expect(ring).toHaveAttribute("aria-valuenow", "60");
     for (let i = 0; i < 6; i += 1) await done.click();
     await expect(ring).toHaveAttribute("aria-valuenow", "100");
+  });
+
+  test("Mine, the mascot, has four moods and is a decoration next to what it says", async ({
+    page,
+  }) => {
+    const moods = page.getByTestId("mascot-moods");
+    for (const mood of ["content", "ravi", "complice", "endormi"]) {
+      await expect(moods.getByRole("img", { name: `Mine, ${mood}` })).toBeVisible();
+    }
+    // The bubble is text; the mascot beside it is hidden from screen readers.
+    await expect(page.getByText("Bravo, séance terminée !")).toBeVisible();
+    await expect(page.locator("section[aria-labelledby='ds-mascot'] svg").first()).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+  });
+
+  test("the game widgets follow the weekly goal: the dots check as sessions are done", async ({
+    page,
+  }) => {
+    const dots = page.getByRole("progressbar", { name: "Séances de la semaine" });
+    await expect(dots).toHaveAttribute("aria-valuenow", "2");
+    await expect(dots).toHaveAttribute("aria-valuetext", "2 séances sur 5");
+    await page.getByRole("button", { name: "Séance faite" }).click();
+    await expect(dots).toHaveAttribute("aria-valuenow", "3");
+    await expect(dots.locator("[data-done='true']")).toHaveCount(3);
+  });
+
+  test("shows the series, the XP, the level, the mastery and the badges, each with a spoken name", async ({
+    page,
+  }) => {
+    await expect(page.getByRole("img", { name: "3 semaines de suite" })).toBeVisible();
+    await expect(page.getByRole("img", { name: "850 points d'expérience" })).toBeVisible();
+    await expect(page.getByRole("img", { name: "Niveau 4, Premier trait" })).toBeVisible();
+    await expect(page.getByRole("img", { name: "Perspective : 3 étoiles sur 5" })).toBeVisible();
+    await expect(page.getByRole("img", { name: "Semaine pleine : obtenu" })).toBeVisible();
+    await expect(page.getByRole("img", { name: "Quatre semaines : à obtenir" })).toBeVisible();
+  });
+
+  test("an earned badge is a tilted sticker, a badge to earn is dashed and flat", async ({
+    page,
+  }) => {
+    const earned = page.getByRole("img", { name: "Première séance : obtenu" });
+    const todo = page.getByRole("img", { name: "Quatre semaines : à obtenir" });
+    expect(
+      await earned
+        .locator("span")
+        .first()
+        .evaluate((el) => getComputedStyle(el).rotate),
+    ).toBe("-4deg");
+    expect(
+      await todo
+        .locator("span")
+        .first()
+        .evaluate((el) => getComputedStyle(el).borderStyle),
+    ).toBe("dashed");
+  });
+
+  test("stickers have an ink outline and a hard shadow (cards, buttons)", async ({ page }) => {
+    for (const locator of [
+      page.getByRole("button", { name: "Plus tard" }),
+      page.locator(".card").first(),
+    ]) {
+      const style = await locator.evaluate((element) => {
+        const css = getComputedStyle(element);
+        return { width: css.borderTopWidth, shadow: css.boxShadow };
+      });
+      expect(style.width).toBe("2px");
+      // A hard shadow: an offset with no blur.
+      expect(style.shadow).toMatch(/ 3px 3px 0px 0px/);
+    }
   });
 
   test("the XP bar shows its value", async ({ page }) => {
@@ -122,6 +234,27 @@ test.describe("design system: style guide page", () => {
     expect(longest).toBeLessThan(0.05);
   });
 
+  test("the page is warm paper by day (not white), with the ink as text color", async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: "light" });
+    await page.reload();
+    const [background, color] = await page.evaluate(() => [
+      getComputedStyle(document.body).backgroundColor,
+      getComputedStyle(document.body).color,
+    ]);
+    expect(background).toBe("rgb(255, 246, 229)");
+    expect(color).toBe("rgb(42, 31, 77)");
+  });
+
+  test("titles and buttons use the rounded display font", async ({ page }) => {
+    const fonts = await page.evaluate(() => [
+      getComputedStyle(document.querySelector("h1")!).fontFamily,
+      getComputedStyle(document.querySelector("main button")!).fontFamily,
+    ]);
+    for (const family of fonts) expect(family).toMatch(/fredoka/i);
+  });
+
   test("works in dark mode (the page background and the text keep a strong contrast)", async ({
     page,
   }) => {
@@ -131,8 +264,8 @@ test.describe("design system: style guide page", () => {
       getComputedStyle(document.body).backgroundColor,
       getComputedStyle(document.body).color,
     ]);
-    expect(background).toBe("rgb(10, 10, 10)");
-    expect(color).toBe("rgb(237, 237, 237)");
+    expect(background).toBe("rgb(23, 18, 43)");
+    expect(color).toBe("rgb(246, 239, 226)");
   });
 });
 
@@ -144,7 +277,7 @@ test.describe("design system: interactions", () => {
   });
 
   test("the tab bar marks the chosen tab as the current page", async ({ page }) => {
-    const nav = page.getByRole("navigation", { name: "Navigation principale" });
+    const nav = page.getByRole("navigation", { name: "Exemple de barre d'onglets" });
     await expect(nav.getByRole("link", { name: "Aujourd'hui" })).toHaveAttribute(
       "aria-current",
       "page",

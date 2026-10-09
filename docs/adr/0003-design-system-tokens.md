@@ -24,8 +24,8 @@ espacements (`min-h-tap` 44 px, `min-h-control` 48 px, `min-h-control-sm` 40 px,
 animations, et les classes `.card`, `.btn` (+ variantes), `.field`, `.alert`, `.chip`, `.page-title`, `.section-title`.
 Les composants partagés vivront dans `src/components/`.
 
-**Valeurs provisoires** : l'accent indigo et l'icône crayon sont des placeholders en attendant l'identité visuelle
-(question 9 de `.dev/decisions-a-valider.md`). Changer la DA = modifier `globals.css` (et `public/icons`, `manifest.ts`).
+**Identité** : les valeurs initiales (accent indigo) étaient des placeholders ; l'identité « carnet de croquis » les remplace (voir [ADR 0006](./0006-playful-design-sketchbook.md)).
+Changer la DA = modifier `globals.css` (et `public/icons`, `manifest.ts`).
 
 ## Conséquences
 

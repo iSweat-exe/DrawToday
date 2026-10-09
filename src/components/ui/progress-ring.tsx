@@ -29,7 +29,7 @@ export function ProgressRing({
   value,
   label,
   size = 96,
-  strokeWidth = 10,
+  strokeWidth = 12,
   tone = "accent",
   children,
   className,
@@ -61,7 +61,7 @@ export function ProgressRing({
           r={radius}
           fill="none"
           strokeWidth={strokeWidth}
-          className="stroke-foreground/10"
+          className="stroke-line-strong"
         />
         <circle
           cx={size / 2}
@@ -77,7 +77,7 @@ export function ProgressRing({
         />
       </svg>
       {children !== undefined && (
-        <div className="absolute inset-0 flex items-center justify-center text-center font-semibold">
+        <div className="absolute inset-0 flex items-center justify-center text-center font-display text-lg font-semibold">
           {children}
         </div>
       )}

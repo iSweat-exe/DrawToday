@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { AchievementBadge } from "@/components/ui/achievement-badge";
 import { BottomSheet } from "@/components/ui/bottom-sheet";
 import { Button } from "@/components/ui/button";
 import { Confetti } from "@/components/ui/confetti";
@@ -10,15 +11,22 @@ import {
   CheckIcon,
   FlameIcon,
   HomeIcon,
+  PencilIcon,
   RouteIcon,
   StarIcon,
   UserIcon,
 } from "@/components/ui/icons";
+import { GoalDots } from "@/components/ui/goal-dots";
 import { ImageViewer } from "@/components/ui/image-viewer";
+import { LevelBadge } from "@/components/ui/level-badge";
+import { Mascot, type MascotMood } from "@/components/ui/mascot";
+import { MascotMessage } from "@/components/ui/mascot-message";
+import { MasteryStars } from "@/components/ui/mastery-stars";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { ProgressRing } from "@/components/ui/progress-ring";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import { Skeleton } from "@/components/ui/skeleton";
+import { StatPill } from "@/components/ui/stat-pill";
 import { Switch } from "@/components/ui/switch";
 import { TabBar, type TabBarItem } from "@/components/ui/tab-bar";
 import { useToast } from "@/components/ui/toast";
@@ -31,6 +39,13 @@ const DURATIONS = [
 ] as const;
 
 type Duration = (typeof DURATIONS)[number]["value"];
+
+const MOODS: Array<{ mood: MascotMood; label: string }> = [
+  { mood: "happy", label: "content" },
+  { mood: "cheer", label: "ravi" },
+  { mood: "wink", label: "complice" },
+  { mood: "sleepy", label: "endormi" },
+];
 
 const TABS: TabBarItem[] = [
   { href: "/design-system#aujourdhui", label: "Aujourd'hui", icon: <HomeIcon /> },
@@ -64,6 +79,7 @@ export function DesignSystemDemo() {
           Boutons
         </h2>
         <Button>Commencer la séance</Button>
+        <Button variant="reward">Récupérer mon XP</Button>
         <Button variant="secondary">Plus tard</Button>
         <Button variant="outline">Voir le parcours</Button>
         <Button variant="ghost">Passer</Button>
@@ -127,6 +143,73 @@ export function DesignSystemDemo() {
             <span className="text-muted">850 / 1200 XP</span>
           </div>
           <ProgressBar value={850 / 1200} label="XP du niveau" tone="reward" />
+        </div>
+      </section>
+
+      <section aria-labelledby="ds-mascot" className="flex flex-col gap-3">
+        <h2 id="ds-mascot" className="section-title">
+          Mine, la mascotte
+        </h2>
+        <MascotMessage mood="cheer">
+          Bravo, séance terminée ! Ta main s&apos;en souviendra.
+        </MascotMessage>
+        <div className="card grid grid-cols-4 gap-2 p-3" data-testid="mascot-moods">
+          {MOODS.map(({ mood, label }) => (
+            <div key={mood} className="flex flex-col items-center gap-1">
+              <Mascot mood={mood} size={56} label={`Mine, ${label}`} />
+              <span className="font-display text-xs font-semibold text-muted">{label}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section aria-labelledby="ds-game" className="flex flex-col gap-4">
+        <h2 id="ds-game" className="section-title">
+          Ludification
+        </h2>
+        <div className="card flex flex-col gap-4 p-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <StatPill
+              tone="ember"
+              icon={<FlameIcon width={16} height={16} fill="currentColor" />}
+              value={3}
+              label="3 semaines de suite"
+            />
+            <StatPill
+              tone="reward"
+              icon={<StarIcon width={16} height={16} fill="currentColor" />}
+              value={850}
+              label="850 points d'expérience"
+            />
+            <StatPill
+              tone="sky"
+              icon={<PencilIcon width={16} height={16} />}
+              value={12}
+              label="12 séances"
+            />
+          </div>
+          <div className="flex items-center gap-4">
+            <LevelBadge level={4} title="Premier trait" />
+            <div className="flex flex-1 flex-col gap-2">
+              <p className="font-display text-sm font-semibold">Objectif de la semaine</p>
+              <GoalDots done={sessions} goal={5} label="Séances de la semaine" />
+            </div>
+          </div>
+          <div className="flex items-center justify-between gap-3">
+            <span className="font-display text-sm font-semibold">Perspective</span>
+            <MasteryStars value={3} label="Perspective" />
+          </div>
+        </div>
+        <div className="card flex justify-around gap-2 p-4">
+          <AchievementBadge unlocked tone="reward" name="Première séance" icon={<PencilIcon />} />
+          <AchievementBadge
+            unlocked
+            tone="ember"
+            tilt={5}
+            name="Semaine pleine"
+            icon={<FlameIcon fill="currentColor" />}
+          />
+          <AchievementBadge name="Quatre semaines" icon={<StarIcon />} />
         </div>
       </section>
 
@@ -233,6 +316,7 @@ export function DesignSystemDemo() {
         </h2>
         <div className="card overflow-hidden">
           <TabBar
+            label="Exemple de barre d'onglets"
             items={TABS}
             activeHref={tab}
             onItemClick={(item, event) => {

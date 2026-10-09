@@ -321,10 +321,16 @@ max_frequency = "5s"
 # `discord`, `facebook`, `github`, `gitlab`, `google`, `keycloak`, `linkedin_oidc`, `notion`, `twitch`,
 # `twitter`, `x`, `slack`, `spotify`, `workos`, `zoom`.
 [auth.external.discord]
-enabled = false
+enabled = true
 client_id = "env(SUPABASE_AUTH_EXTERNAL_DISCORD_CLIENT_ID)"
 # DO NOT commit the secret: it comes from the environment (see docs/runbook.md).
 secret = "env(SUPABASE_AUTH_EXTERNAL_DISCORD_SECRET)"
+
+[auth.external.github]
+enabled = true
+client_id = "env(SUPABASE_AUTH_EXTERNAL_GITHUB_CLIENT_ID)"
+# DO NOT commit the secret: it comes from the environment (see docs/runbook.md).
+secret = "env(SUPABASE_AUTH_EXTERNAL_GITHUB_SECRET)"
 
 [auth.external.apple]
 enabled = false

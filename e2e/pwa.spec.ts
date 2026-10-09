@@ -20,8 +20,8 @@ test.describe("installable PWA", () => {
       })),
     );
     expect(themes).toEqual([
-      { color: "#ffffff", media: "(prefers-color-scheme: light)" },
-      { color: "#0a0a0a", media: "(prefers-color-scheme: dark)" },
+      { color: "#fff6e5", media: "(prefers-color-scheme: light)" },
+      { color: "#17122b", media: "(prefers-color-scheme: dark)" },
     ]);
     // iOS: opens without the Safari bars once added to the home screen.
     await expect(page.locator('meta[name="mobile-web-app-capable"]')).toHaveAttribute(
@@ -124,7 +124,7 @@ test.describe("pages", () => {
       ]);
       expect(background, scheme).not.toBe(color);
       expect(background, scheme).toBe(
-        scheme === "light" ? "rgb(255, 255, 255)" : "rgb(10, 10, 10)",
+        scheme === "light" ? "rgb(255, 246, 229)" : "rgb(23, 18, 43)",
       );
     }
   });

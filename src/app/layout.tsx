@@ -1,12 +1,26 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fredoka, Geist, Geist_Mono, Pixelify_Sans } from "next/font/google";
 import "./globals.css";
+import { AppearanceSync } from "@/components/appearance-sync";
 import { NoZoom } from "@/components/no-zoom";
 import { ServiceWorkerRegister } from "@/components/service-worker-register";
 import { ToastProvider } from "@/components/ui/toast";
+import { APPEARANCE_INIT_SCRIPT } from "@/lib/appearance";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+// Rounded display type for titles, buttons and numbers (the playful voice of the app, ADR 0006).
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
+  subsets: ["latin"],
+});
+
+// Pixel font of the retro touch (ADR 0007): small labels and numbers only, never paragraphs.
+const pixelify = Pixelify_Sans({
+  variable: "--font-pixelify",
   subsets: ["latin"],
 });
 
@@ -28,8 +42,9 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    // The paper of the design system (`--background` in globals.css).
+    { media: "(prefers-color-scheme: light)", color: "#fff6e5" },
+    { media: "(prefers-color-scheme: dark)", color: "#17122b" },
   ],
   // Required for env(safe-area-inset-*) on iPhones with a notch.
   viewportFit: "cover",
@@ -47,12 +62,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="fr"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${fredoka.variable} ${pixelify.variable} ${geistMono.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        {/* Puts the chosen theme on the page before the first paint (no flash of the default look). */}
+        <script dangerouslySetInnerHTML={{ __html: APPEARANCE_INIT_SCRIPT }} />
+      </head>
       <body className="min-h-full flex flex-col">
         <ToastProvider>{children}</ToastProvider>
         <NoZoom />
+        <AppearanceSync />
         <ServiceWorkerRegister />
       </body>
     </html>

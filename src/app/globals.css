@@ -3,53 +3,158 @@
 /*
  * DrawToday design system: the single place for colors, radii, spacing, fonts and the shared component
  * classes (ADR 0003). Pages and components use these tokens/classes instead of ad-hoc values, so the look of the
- * whole app changes from here. Mobile-app style: large touch targets, generous radii, soft surfaces.
- * The accent color is a placeholder until the visual identity is chosen (.dev/decisions-a-valider.md).
+ * whole app changes from here.
+ *
+ * The identity is "the sketchbook" (ADR 0006): warm paper with a dotted grid, thick ink outlines, hard offset shadows
+ * like stickers, a box of crayon colors, rounded display type and a pencil mascot. Playful on purpose, because
+ * practising is easier when it is fun, but the game never gets in the way of the drawing (docs/pedagogie/gamification.md).
+ * Mobile-app style: large touch targets, chunky radii, everything that is touched answers at once.
+ *
+ * Two things the learner can change (ADR 0007), through attributes of <html> set before the first paint:
+ *  - the color theme (`data-accent`) and light/dark (`data-theme`),
+ *  - the retro touch (`data-style="classic"` switches it off): a pixel font for labels and numbers, bevelled buttons,
+ *    blocky progress bars and little window title bars, a nod to the 90s that stays in small doses.
  */
 
 /*
  * 1. Color tokens (light, then dark). `data-theme="light"` or `"dark"` on <html> forces a theme, no attribute
  * follows the system. The dark values are therefore written twice (system dark without a forced light theme,
  * and forced dark): keep both blocks identical.
+ * `--ink` is the dark ink of faces and of text on yellow. `--outline` is the line and the hard shadow of every sticker:
+ * the same ink on paper by day, an even darker night on the night paper, where it works as depth more than as a line.
  */
 :root {
   color-scheme: light;
-  --background: #ffffff;
-  --foreground: #171717;
-  --accent: #4f46e5;
-  --accent-strong: #4338ca; /* pressed state */
+  --background: #fff6e5; /* paper */
+  --foreground: #2a1f4d; /* ink on paper: text */
+  --card: #ffffff; /* the surface of cards and controls, one step above the paper */
+  --ink: #2a1f4d; /* faces, text on yellow */
+  --outline: #2a1f4d; /* outlines and hard shadows of the stickers */
+  --accent: #6c3bff; /* grape */
   --accent-ink: #ffffff; /* text on the accent color */
-  --danger: #dc2626; /* error text and destructive actions */
-  --success: #16a34a;
-  --warning: #d97706; /* degraded state */
-  --reward: #f59e0b; /* XP, achievements, celebrations */
-  --reward-ink: #1f1300; /* text on the reward color */
+  --danger: #c42a41; /* error text and destructive actions */
+  --success: #087a52;
+  --warning: #a35505; /* degraded state */
+  --reward: #ffc233; /* XP, stars, achievements: sunshine */
+  --reward-ink: #2a1f4d; /* text on the reward color (dark in both themes) */
+  --ember: #ff6a3d; /* the weekly series (flame) */
+  --sky: #1a7bc8; /* information, tips */
+  /* The retro touch (all of it falls back to nothing under `data-style="classic"`, see below). */
+  --font-retro: var(--font-pixelify);
+  --bevel-light: rgb(255 255 255 / 0.4); /* the lit edge of a button */
+  --bevel-dark: rgb(0 0 0 / 0.16); /* its shaded edge */
+  --segment-gap: var(--card); /* the gaps between the blocks of a progress bar */
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --background: #0a0a0a;
-    --foreground: #ededed;
-    --accent: #6366f1;
-    --accent-strong: #4f46e5;
-    --danger: #f87171;
-    --success: #4ade80;
-    --warning: #fbbf24;
-    --reward: #fbbf24;
+    --background: #17122b;
+    --foreground: #f6efe2;
+    --card: #2e2659;
+    --ink: #07040f;
+    --outline: #07040f;
+    --accent: #a78bff;
+    --accent-ink: #1a1038;
+    --danger: #ff7a8a;
+    --success: #3ddc97;
+    --warning: #ffb347;
+    --reward: #ffd04d;
+    --ember: #ff8a5c;
+    --sky: #5cb8ff;
   }
 }
 
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --background: #0a0a0a;
-  --foreground: #ededed;
-  --accent: #6366f1;
-  --accent-strong: #4f46e5;
-  --danger: #f87171;
-  --success: #4ade80;
-  --warning: #fbbf24;
-  --reward: #fbbf24;
+  --background: #17122b;
+  --foreground: #f6efe2;
+  --card: #2e2659;
+  --ink: #07040f;
+  --outline: #07040f;
+  --accent: #a78bff;
+  --accent-ink: #1a1038;
+  --danger: #ff7a8a;
+  --success: #3ddc97;
+  --warning: #ffb347;
+  --reward: #ffd04d;
+  --ember: #ff8a5c;
+  --sky: #5cb8ff;
+}
+
+/*
+ * Color themes (ADR 0007). A theme is a whole palette, not just an accent: the paper, the cards, the ink and the accent
+ * (with the text on it), for light and dark with `light-dark()`: it follows the `color-scheme` set above, so one block per
+ * theme is enough. The yellow of the rewards, the ember of the series, the sky and the signal colors are shared by every
+ * theme. The selector also matches an element carrying `data-swatch`, which lets the theme picker show every theme at
+ * once. `grape` is the default (same values as above).
+ * `src/ci/design-tokens.test.ts` checks the contrast of every theme in both modes and the list against `ACCENTS`.
+ * The pressed color (`accent-strong`) is derived from the accent in the theme section below.
+ */
+:is(:root, [data-swatch])[data-accent="grape"] {
+  --background: light-dark(#fff6e5, #17122b);
+  --card: light-dark(#ffffff, #2e2659);
+  --foreground: light-dark(#2a1f4d, #f6efe2);
+  --ink: light-dark(#2a1f4d, #07040f);
+  --outline: light-dark(#2a1f4d, #07040f);
+  --accent: light-dark(#6c3bff, #a78bff);
+  --accent-ink: light-dark(#ffffff, #1a1038);
+}
+:is(:root, [data-swatch])[data-accent="coral"] {
+  --background: light-dark(#fff0e6, #28130f);
+  --card: light-dark(#ffffff, #432219);
+  --foreground: light-dark(#3b1c14, #fdeee6);
+  --ink: light-dark(#3b1c14, #0f0504);
+  --outline: light-dark(#3b1c14, #0f0504);
+  --accent: light-dark(#cc3a1a, #ff8a6a);
+  --accent-ink: light-dark(#ffffff, #2b0d05);
+}
+:is(:root, [data-swatch])[data-accent="ocean"] {
+  --background: light-dark(#e8f3ff, #0d1a30);
+  --card: light-dark(#ffffff, #182d52);
+  --foreground: light-dark(#0f2748, #e6f1ff);
+  --ink: light-dark(#0f2748, #040a16);
+  --outline: light-dark(#0f2748, #040a16);
+  --accent: light-dark(#0a65b8, #62b8ff);
+  --accent-ink: light-dark(#ffffff, #04213d);
+}
+:is(:root, [data-swatch])[data-accent="candy"] {
+  --background: light-dark(#ffe9f3, #28101f);
+  --card: light-dark(#ffffff, #43203a);
+  --foreground: light-dark(#4a1034, #ffe9f4);
+  --ink: light-dark(#4a1034, #10040b);
+  --outline: light-dark(#4a1034, #10040b);
+  --accent: light-dark(#bd117a, #ff7cc8);
+  --accent-ink: light-dark(#ffffff, #3b0827);
+}
+:is(:root, [data-swatch])[data-accent="lagoon"] {
+  --background: light-dark(#e2f6f3, #0a2024);
+  --card: light-dark(#ffffff, #12393e);
+  --foreground: light-dark(#062f35, #e0f6f4);
+  --ink: light-dark(#062f35, #030c0d);
+  --outline: light-dark(#062f35, #030c0d);
+  --accent: light-dark(#006c79, #4fd6e6);
+  --accent-ink: light-dark(#ffffff, #03262b);
+}
+:is(:root, [data-swatch])[data-accent="graphite"] {
+  --background: light-dark(#f0eff4, #131218);
+  --card: light-dark(#ffffff, #27252f);
+  --foreground: light-dark(#1f1d29, #eeedf3);
+  --ink: light-dark(#1f1d29, #050507);
+  --outline: light-dark(#1f1d29, #050507);
+  --accent: light-dark(#3d3a52, #d9d6e8);
+  --accent-ink: light-dark(#ffffff, #17151f);
+}
+
+/* Without the retro touch: no pixel font, no bevel, no gaps in the bars, no window title bars. */
+:root[data-style="classic"] {
+  --font-retro: var(--font-fredoka);
+  --bevel-light: transparent;
+  --bevel-dark: transparent;
+  --segment-gap: transparent;
+}
+:root[data-style="classic"] .window-bar {
+  display: none;
 }
 
 /* 2. Theme: tokens exposed as Tailwind utilities (bg-accent, text-muted, rounded-card, min-h-control…). */
@@ -57,28 +162,36 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-accent: var(--accent);
-  --color-accent-strong: var(--accent-strong);
+  --color-accent-strong: color-mix(in srgb, var(--accent) 86%, black); /* pressed */
   --color-accent-ink: var(--accent-ink);
   --color-danger: var(--danger);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-reward: var(--reward);
   --color-reward-ink: var(--reward-ink);
+  --color-ember: var(--ember);
+  --color-sky: var(--sky);
+  --color-card: var(--card);
+  --color-ink: var(--ink);
+  --color-outline: var(--outline);
   /* Neutral surfaces and text, derived from the foreground so they follow light and dark. */
-  --color-surface: color-mix(in srgb, var(--foreground) 3%, transparent);
-  --color-line: color-mix(in srgb, var(--foreground) 10%, transparent);
-  --color-line-strong: color-mix(in srgb, var(--foreground) 15%, transparent);
-  --color-muted: color-mix(in srgb, var(--foreground) 60%, transparent);
-  --color-faint: color-mix(in srgb, var(--foreground) 45%, transparent);
+  --color-surface: color-mix(in srgb, var(--foreground) 4%, transparent);
+  --color-line: color-mix(in srgb, var(--foreground) 14%, transparent);
+  --color-line-strong: color-mix(in srgb, var(--foreground) 22%, transparent);
+  --color-muted: color-mix(in srgb, var(--foreground) 72%, transparent);
+  --color-faint: color-mix(in srgb, var(--foreground) 68%, transparent);
 
-  /* Fonts. */
+  /* Fonts: rounded display type for titles, buttons and numbers; the body stays in Geist for reading. */
   --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-fredoka), var(--font-geist-sans);
+  /* Pixel font for small labels and numbers; the same as the display font without the retro touch. */
+  --font-pixel: var(--font-retro), var(--font-fredoka), var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  /* Radii: controls (buttons, inputs), cards, sheets. Pills and avatars use rounded-full. */
-  --radius-control: 0.75rem;
-  --radius-card: 1rem;
-  --radius-sheet: 1.5rem;
+  /* Radii: chunky on purpose. Controls (buttons, inputs), cards, sheets. Pills and avatars use rounded-full. */
+  --radius-control: 1rem;
+  --radius-card: 1.5rem;
+  --radius-sheet: 2rem;
 
   /* Spacing: touch targets and page rhythm. */
   --spacing-tap: 2.75rem; /* 44 px: minimum touch target (iOS) */
@@ -91,10 +204,17 @@
   --spacing-safe-bottom: max(env(safe-area-inset-bottom), 2rem);
   --spacing-section: 1.5rem; /* gap between page sections */
 
-  /* Elevation: soft, layered shadows (cards rest, popups float, the primary action glows). */
-  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.04), 0 6px 20px rgb(0 0 0 / 0.06);
-  --shadow-pop: 0 10px 30px rgb(0 0 0 / 0.18);
-  --shadow-glow: 0 8px 22px color-mix(in srgb, var(--accent) 38%, transparent);
+  /* Elevation: hard, offset shadows in ink, like stickers. Things that can be pressed sink into their shadow. */
+  --shadow-sticker-sm: 2px 2px 0 0 var(--outline);
+  --shadow-sticker: 3px 3px 0 0 var(--outline);
+  --shadow-card: 3px 3px 0 0 var(--outline); /* cards and controls at rest */
+  --shadow-glow: 3px 3px 0 0 var(--outline); /* the primary action: same sticker, its color does the talking */
+  /* Buttons: the sticker shadow plus a lit and a shaded inner edge, like the buttons of a 90s window. */
+  --shadow-button:
+    3px 3px 0 0 var(--outline), inset 2px 2px 0 0 var(--bevel-light),
+    inset -2px -2px 0 0 var(--bevel-dark);
+  --shadow-pop:
+    5px 5px 0 0 var(--outline), 0 14px 30px rgb(0 0 0 / 0.18); /* floating: sheets, toasts */
 
   /* Motion: feedback under 100 ms, springs for things that appear, soft ease-out for things that move. */
   --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -103,6 +223,9 @@
   --animate-fade-in: fade-in 200ms ease-out;
   --animate-pop: pop 380ms var(--ease-spring);
   --animate-shake: shake 360ms ease-in-out;
+  --animate-wiggle: wiggle 600ms var(--ease-spring);
+  --animate-bob: bob 2.8s ease-in-out infinite;
+  --animate-twinkle: twinkle 1.6s ease-in-out infinite;
   --animate-toast-in: toast-in 320ms var(--ease-spring);
   --animate-shine: shine 2.4s ease-in-out infinite;
   --animate-shimmer: shimmer 1.4s ease-in-out infinite;
@@ -150,6 +273,38 @@
     40%,
     80% {
       transform: translateX(6px);
+    }
+  }
+  @keyframes wiggle {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(-6deg);
+    }
+    60% {
+      transform: rotate(5deg);
+    }
+  }
+  @keyframes bob {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+  @keyframes twinkle {
+    0%,
+    100% {
+      transform: scale(0.6) rotate(0deg);
+      opacity: 0.5;
+    }
+    50% {
+      transform: scale(1) rotate(20deg);
+      opacity: 1;
     }
   }
   @keyframes toast-in {
@@ -203,59 +358,74 @@
 }
 
 /* 3. Shared component classes. */
+@layer base {
+  /* Titles are set in the rounded display font. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display), var(--font-sans), sans-serif;
+  }
+}
+
 @layer components {
   .page-title {
-    @apply text-2xl font-semibold tracking-tight;
+    @apply font-display text-3xl font-bold tracking-tight;
   }
   .section-title {
-    @apply px-1 text-xs font-semibold tracking-wide text-faint uppercase;
+    @apply px-1 font-pixel text-sm font-semibold tracking-wider text-muted uppercase;
   }
+  /* A sticker: card surface, ink outline, hard shadow. */
   .card {
-    @apply rounded-card border border-line bg-surface shadow-card;
+    @apply rounded-card border-2 border-outline bg-card shadow-card;
   }
+  /* A tappable card: it sinks into its shadow under the finger. */
   .card-link {
-    @apply rounded-card border border-line bg-surface shadow-card transition-[scale,background-color] duration-150 ease-soft active:scale-[0.985] active:bg-foreground/10;
+    @apply rounded-card border-2 border-outline bg-card shadow-card transition-[translate,box-shadow,background-color] duration-150 ease-soft active:translate-x-[3px] active:translate-y-[3px] active:shadow-none;
   }
-  /* Anything tappable that is not a .btn: a small press animation gives the instant feedback of a native app. */
+  /* Anything tappable that is not a .btn or a .card-link: a small press animation gives the instant feedback of a native app. */
   .pressable {
-    @apply transition-transform duration-150 ease-soft select-none active:scale-[0.96];
+    @apply transition-transform duration-150 ease-soft select-none active:scale-[0.94];
   }
 
   /* Form fields. */
   .field {
-    @apply min-h-control w-full rounded-control border border-line-strong bg-background px-4 text-base;
+    @apply min-h-control w-full rounded-control border-2 border-outline bg-card px-4 text-base focus-visible:shadow-card;
   }
   textarea.field {
     @apply py-3;
   }
   .field-label {
-    @apply flex min-w-0 flex-col gap-1.5 text-sm font-medium;
+    @apply flex min-w-0 flex-col gap-1.5 font-display text-sm font-semibold;
   }
   .field-error {
     @apply text-sm text-danger;
   }
 
-  /* Buttons: combine `.btn` with one variant. */
+  /* Buttons: combine `.btn` with one variant. A sticker that sinks into its shadow when pressed. */
   .btn {
-    @apply inline-flex min-h-control items-center justify-center gap-2 rounded-control px-5 text-base font-semibold transition-[scale,background-color,box-shadow,opacity] duration-150 ease-soft select-none active:scale-[0.97] disabled:opacity-60 disabled:active:scale-100;
+    @apply inline-flex min-h-control items-center justify-center gap-2 rounded-control border-2 border-outline px-5 font-display text-lg font-semibold shadow-button transition-[translate,box-shadow,background-color,opacity] duration-150 ease-soft select-none active:translate-x-[3px] active:translate-y-[3px] active:shadow-none disabled:opacity-60 disabled:shadow-none disabled:active:translate-x-0 disabled:active:translate-y-0;
   }
   .btn-primary {
-    @apply bg-accent text-accent-ink shadow-glow active:bg-accent-strong active:shadow-none;
+    @apply bg-accent text-accent-ink active:bg-accent-strong;
   }
+  .btn-reward {
+    @apply bg-reward text-reward-ink;
+  }
+  /* No outline, no shadow: the quiet action next to a sticker. */
   .btn-ghost {
-    @apply font-medium text-accent active:bg-accent/10;
+    @apply border-transparent bg-transparent text-accent shadow-none active:translate-x-0 active:translate-y-0 active:bg-accent/10;
   }
   .btn-secondary {
-    @apply bg-foreground/10 font-medium text-foreground active:bg-foreground/15;
+    @apply bg-card text-foreground active:bg-surface;
   }
   .btn-outline {
-    @apply border border-line-strong font-medium text-foreground active:bg-foreground/5;
+    @apply bg-background text-foreground active:bg-surface;
   }
   .btn-danger {
-    @apply border border-danger/40 text-danger active:bg-danger/10;
+    @apply bg-card text-danger active:bg-danger/10;
   }
   .btn-sm {
-    @apply min-h-control-sm px-4 text-sm;
+    @apply min-h-control-sm px-4 text-base;
   }
 
   /* A spinner inside a button (loading state). */
@@ -278,10 +448,10 @@
 
   /* Feedback. */
   .alert {
-    @apply rounded-control border px-4 py-3 text-sm;
+    @apply rounded-control border-2 px-4 py-3 text-sm;
   }
   .alert-error {
-    @apply border-danger/30 bg-danger/10 text-danger;
+    @apply border-danger bg-danger/10 text-danger;
   }
   .text-feedback-error {
     @apply text-sm text-danger;
@@ -290,17 +460,37 @@
     @apply text-sm text-success;
   }
 
-  /* Small labels. */
+  /* The gaps that turn a progress bar into blocks (see `ProgressBar`): painted over the bar, in the color of the card. */
+  .progress-blocks {
+    background-image: repeating-linear-gradient(
+      90deg,
+      transparent 0 10px,
+      var(--segment-gap) 10px 13px
+    );
+  }
+
+  /* The title bar of a little window (see `WindowCard`). */
+  .window-bar {
+    @apply flex items-center gap-2 border-b-2 border-outline bg-accent px-3 py-1.5 font-pixel text-sm tracking-wide text-accent-ink;
+  }
+
+  /* Small labels: stickers too. */
   .chip {
-    @apply inline-flex items-center rounded-full bg-foreground/10 px-3 py-1 text-xs font-semibold;
+    @apply inline-flex items-center rounded-full border-2 border-outline bg-card px-3 py-0.5 font-pixel text-[0.8rem] font-semibold;
   }
   .chip-accent {
-    @apply bg-accent/15 text-accent;
+    @apply bg-accent text-accent-ink;
   }
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
+  /* The grid of a sketchbook: faint dots, so the paper never looks flat. */
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--foreground) 9%, transparent) 1.2px,
+    transparent 1.2px
+  );
+  background-size: 22px 22px;
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   /* `dvh` follows the mobile browser bars, unlike `vh`. */
@@ -340,8 +530,8 @@ label {
 
 /* A visible keyboard focus everywhere (never for mouse/touch). */
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {

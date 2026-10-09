@@ -60,7 +60,9 @@ hauteur de bouton : utiliser les tokens et classes partagées. Ajouter un token 
 
 | Besoin                | À utiliser                                                                    |
 | --------------------- | ----------------------------------------------------------------------------- |
-| Couleurs              | `bg-accent`, `text-accent`, `text-danger`, `text-success`, `text-muted`, `text-faint`, `border-line`, `bg-surface` |
+| Couleurs              | `bg-accent`, `text-accent`, `bg-reward`, `bg-ember`, `bg-card`, `text-danger`, `text-success`, `text-muted`, `text-faint`, `border-outline` (contour des autocollants), `border-line`, `bg-surface` |
+| Police                | `font-display` (Fredoka) pour titres, boutons, nombres ; `font-pixel` pour les petits libellés (rétro, jamais pour de petits chiffres) ; le corps du texte reste en Geist |
+| Ombres                | `shadow-sticker` (3 px), `shadow-sticker-sm` (2 px), `shadow-pop` : dures et décalées, jamais de flou |
 | Arrondis              | `rounded-control` (boutons, champs), `rounded-card` (cartes), `rounded-sheet` (feuilles), `rounded-full` (pastilles, avatars) |
 | Zones tactiles        | `min-h-tap` (44 px), `min-h-control` (48 px), `min-h-control-sm` (40 px)      |
 | Rythme                | `p-gutter` (marge de page), `gap-section` (entre sections)                    |
@@ -71,7 +73,9 @@ hauteur de bouton : utiliser les tokens et classes partagées. Ajouter un token 
 
 Les **composants** (`Button`, `Switch`, `SegmentedControl`, `ProgressRing`…) sont décrits dans [`design-system.md`](./design-system.md) ; on les utilise avant d'en créer d'autres.
 
-La couleur d'accent du socle est provisoire (identité visuelle à choisir).
+L'élève choisit son apparence (mode, thème de couleurs, touche rétro : ADR 0007) : **n'écris jamais de couleur de thème en dur**, utilise `accent` / `accent-ink`, qui suivent le thème choisi.
+L'identité est le « carnet de croquis » (ADR 0006) : papier, contours d'encre, ombres d'autocollant, mascotte Mine. Un test (`src/ci/design-tokens.test.ts`) garde les deux thèmes
+identiques et les contrastes lisibles. Les **icônes de l'application** (`public/icons`) sont encore provisoires.
 
 ## TypeScript / qualité
 

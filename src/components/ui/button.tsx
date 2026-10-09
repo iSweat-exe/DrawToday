@@ -4,7 +4,8 @@ import type { ButtonHTMLAttributes, MouseEvent } from "react";
 import { cn } from "@/lib/cn";
 import { haptic as vibrate, type HapticPattern } from "@/lib/haptics";
 
-export type ButtonVariant = "primary" | "secondary" | "outline" | "danger" | "ghost";
+/** `reward` (sunshine yellow) is for the celebration moments: collecting the XP, starting the day's challenge. */
+export type ButtonVariant = "primary" | "secondary" | "outline" | "danger" | "ghost" | "reward";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: ButtonVariant;
@@ -17,7 +18,7 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 /**
- * The button of the app: press feedback (a small scale-down), optional haptic tap, loading state. Uses the shared `.btn`
+ * The button of the app: a sticker that sinks into its shadow when pressed, optional haptic tap, loading state. Uses the shared `.btn`
  * classes, so it looks the same as a link styled with them.
  */
 export function Button({
