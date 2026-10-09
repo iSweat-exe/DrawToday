@@ -34,9 +34,15 @@
 | `ProgressBar` | XP du niveau | Se remplit à l'affichage ; reflet qui passe |
 | `Skeleton` | Chargement | Reflet ; invisible pour les lecteurs d'écran |
 | `EmptyState` | Liste vide | Un message chaleureux et **la prochaine action** |
+| `TabBar` | Navigation principale (4 onglets) | Zone tactile 56 px, `aria-current`, encoche iPhone gérée ; onglet actif contrôlable |
+| `ToastProvider` / `useToast()` | Retour discret après une action | 3 au maximum, disparaît seul (3,5 s), `role="alert"` pour les erreurs, haptique |
+| `BottomSheet` | Choix secondaire, confirmation | `<dialog>` natif : Échap, arrière-plan inerte, fond cliquable ; se ferme en tirant la poignée |
+| `Confetti` | Petite célébration | Pur CSS, déterministe (angle d'or), retiré du DOM à la fin ; ignoré en mouvement réduit |
+| `XpBurst` | Fin de séance | Étoile qui apparaît, XP qui montent, confettis ; annonce uniquement la valeur finale |
+| `ImageViewer` | Agrandir un dessin ou une référence | Pincement, double toucher, glisser, molette, boutons ; l'image ne sort jamais de l'écran |
 | `icons` | Pictogrammes | 24 px, `currentColor`, décoratifs (`aria-hidden`) : nommer le parent |
 
-Bibliothèque `src/lib/` : `cn()` (assemble des classes), `haptic()` (vibration légère, Android seulement).
+Bibliothèque `src/lib/` : `cn()` (assemble des classes), `haptic()` (vibration légère, Android seulement), `zoom` (calculs purs de la visionneuse), `sheet-gesture` (quand fermer la feuille), `confetti` (pièces déterministes), `use-count-up` (compteur animé).
 
 ## Ajouter un composant
 

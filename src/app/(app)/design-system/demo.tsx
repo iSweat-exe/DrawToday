@@ -1,14 +1,28 @@
 "use client";
 
 import { useState } from "react";
+import { BottomSheet } from "@/components/ui/bottom-sheet";
 import { Button } from "@/components/ui/button";
+import { Confetti } from "@/components/ui/confetti";
 import { EmptyState } from "@/components/ui/empty-state";
-import { CheckIcon, FlameIcon, StarIcon } from "@/components/ui/icons";
+import {
+  BookIcon,
+  CheckIcon,
+  FlameIcon,
+  HomeIcon,
+  RouteIcon,
+  StarIcon,
+  UserIcon,
+} from "@/components/ui/icons";
+import { ImageViewer } from "@/components/ui/image-viewer";
 import { ProgressBar } from "@/components/ui/progress-bar";
 import { ProgressRing } from "@/components/ui/progress-ring";
 import { SegmentedControl } from "@/components/ui/segmented-control";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Switch } from "@/components/ui/switch";
+import { TabBar, type TabBarItem } from "@/components/ui/tab-bar";
+import { useToast } from "@/components/ui/toast";
+import { XpBurst } from "@/components/ui/xp-burst";
 
 const DURATIONS = [
   { value: "10", label: "10 min" },
@@ -18,12 +32,25 @@ const DURATIONS = [
 
 type Duration = (typeof DURATIONS)[number]["value"];
 
+const TABS: TabBarItem[] = [
+  { href: "/design-system#aujourdhui", label: "Aujourd'hui", icon: <HomeIcon /> },
+  { href: "/design-system#parcours", label: "Parcours", icon: <RouteIcon /> },
+  { href: "/design-system#carnet", label: "Carnet", icon: <BookIcon /> },
+  { href: "/design-system#profil", label: "Profil", icon: <UserIcon /> },
+];
+
 /** Interactive tour of the shared components, used as a living style guide and by the end-to-end tests. */
 export function DesignSystemDemo() {
   const [duration, setDuration] = useState<Duration>("30");
   const [reminder, setReminder] = useState(true);
   const [saving, setSaving] = useState(false);
   const [sessions, setSessions] = useState(2);
+  const [tab, setTab] = useState(TABS[0]!.href);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const [burst, setBurst] = useState(0);
+  const [confetti, setConfetti] = useState(false);
+  const { toast } = useToast();
 
   function save() {
     setSaving(true);
@@ -120,6 +147,102 @@ export function DesignSystemDemo() {
         </a>
       </section>
 
+      <section aria-labelledby="ds-feedback" className="flex flex-col gap-3">
+        <h2 id="ds-feedback" className="section-title">
+          Retours et célébrations
+        </h2>
+        <div className="grid grid-cols-3 gap-2">
+          <Button
+            size="sm"
+            variant="secondary"
+            haptic={false}
+            onClick={() =>
+              toast({ title: "Séance enregistrée", description: "+100 XP", tone: "success" })
+            }
+          >
+            Succès
+          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            haptic={false}
+            onClick={() =>
+              toast({
+                title: "Envoi impossible",
+                description: "Réessaie dans un instant",
+                tone: "error",
+              })
+            }
+          >
+            Erreur
+          </Button>
+          <Button
+            size="sm"
+            variant="secondary"
+            haptic={false}
+            onClick={() => toast({ title: "Nouveau défi disponible" })}
+          >
+            Info
+          </Button>
+        </div>
+        <div className="relative">
+          <Button className="w-full" variant="outline" onClick={() => setConfetti(true)}>
+            Un petit feu d&apos;artifice
+          </Button>
+          <Confetti active={confetti} onDone={() => setConfetti(false)} />
+        </div>
+        <Button
+          className="w-full"
+          variant="outline"
+          haptic="success"
+          onClick={() => setBurst((n) => n + 1)}
+        >
+          Terminer une séance
+        </Button>
+        {burst > 0 && (
+          <div className="card" data-testid="xp-card">
+            <XpBurst key={burst} amount={100} caption="Séance terminée" />
+          </div>
+        )}
+      </section>
+
+      <section aria-labelledby="ds-overlays" className="flex flex-col gap-3">
+        <h2 id="ds-overlays" className="section-title">
+          Feuille et visionneuse
+        </h2>
+        <Button variant="secondary" onClick={() => setSheetOpen(true)}>
+          Ouvrir la feuille
+        </Button>
+        <button
+          type="button"
+          onClick={() => setViewerOpen(true)}
+          className="card-link flex min-h-tap flex-col gap-2 p-3 text-left"
+          aria-label="Agrandir l'exemple de dessin"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element -- a small static SVG */}
+          <img src="/images/exemple-boite.svg" alt="" className="w-full rounded-control" />
+          <span className="text-sm font-medium text-accent">
+            Toucher pour agrandir (pincer, double toucher)
+          </span>
+        </button>
+      </section>
+
+      <section aria-labelledby="ds-tabs" className="flex flex-col gap-3">
+        <h2 id="ds-tabs" className="section-title">
+          Barre d&apos;onglets
+        </h2>
+        <div className="card overflow-hidden">
+          <TabBar
+            items={TABS}
+            activeHref={tab}
+            onItemClick={(item, event) => {
+              event.preventDefault();
+              setTab(item.href);
+            }}
+          />
+        </div>
+      </section>
+
       <section aria-labelledby="ds-loading" className="flex flex-col gap-3">
         <h2 id="ds-loading" className="section-title">
           Chargement et états vides
@@ -140,6 +263,24 @@ export function DesignSystemDemo() {
           />
         </div>
       </section>
+      <BottomSheet open={sheetOpen} onClose={() => setSheetOpen(false)} title="Durée d'une séance">
+        <p className="text-muted">
+          Choisis la durée qui te convient aujourd&apos;hui : tu peux changer à chaque séance.
+        </p>
+        <SegmentedControl
+          label="Durée (feuille)"
+          options={DURATIONS}
+          value={duration}
+          onValueChange={setDuration}
+        />
+        <Button onClick={() => setSheetOpen(false)}>C&apos;est parti</Button>
+      </BottomSheet>
+      <ImageViewer
+        open={viewerOpen}
+        onClose={() => setViewerOpen(false)}
+        src="/images/exemple-boite.svg"
+        alt="Une boîte en perspective avec ses lignes de construction"
+      />
     </div>
   );
 }
