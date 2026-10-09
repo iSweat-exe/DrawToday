@@ -9,6 +9,14 @@ updates:
     commit-message:
       prefix: "build(deps)"
     labels: ["dependencies", "type: build"]
+    # Majors that need a deliberate migration (a red PR every week otherwise): done by hand, in their own PR.
+    ignore:
+      - dependency-name: typescript
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: eslint-config-next
+        update-types: ["version-update:semver-major"]
     groups:
       minor-and-patch:
         update-types: [minor, patch]

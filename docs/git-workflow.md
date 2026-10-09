@@ -89,6 +89,8 @@ Règles :
 | `labels-sync.yml` | push sur `main` touchant `labels.yml` | Applique `.github/labels.yml` à GitHub |
 | `release-please.yml` | push sur `main` | PR de release (version + `CHANGELOG.md`) |
 
+Le guide [`repository-setup.md`](./repository-setup.md) liste les réglages GitHub / Vercel / Supabase à faire (règles de `main`, tags, déploiement uniquement depuis `main`).
+
 Dependabot (`.github/dependabot.yml`) ouvre chaque lundi des PR groupées pour npm et GitHub Actions.
 
 ## Premier commit (initialisation du dépôt)

@@ -2,16 +2,15 @@
 
 ## Mise en service (une seule fois, par un mainteneur)
 
-Ce que le dépôt ne peut pas faire seul. L'ordre compte ; cocher les cases O-xxx correspondantes de la checklist.
+Ce que le dépôt ne peut pas faire seul (les réglages détaillés et la liste de contrôle sont dans [`repository-setup.md`](./repository-setup.md)). L'ordre compte ; cocher les cases O-xxx correspondantes de la checklist.
 
 1. **GitHub — premier push** : `git push -u origin main` du commit d'initialisation. La CI se lance ; le workflow
    « Sync labels » crée les labels du dépôt (`.github/labels.yml`).
 2. **GitHub — réglages du dépôt** :
    - Settings → Actions → General → cocher **Allow GitHub Actions to create and approve pull requests**
      (release-please, O-028).
-   - Settings → Branches → règle de protection de `main` (O-024) : PR obligatoire, 1 review, review des code owners,
-     checks requis (`Quality`, `Conventional Commits`, `PR title`, `Secret scan`, `Dependency audit`,
-     `End-to-end tests`, `Database tests`), branches à jour, historique linéaire, pas de force-push.
+   - Settings → Rules → Rulesets → *Import a ruleset* : `.github/rulesets/main.json` et `.github/rulesets/tags.json`
+     (O-024 : PR obligatoire en squash, six vérifications requises, historique linéaire, pas de force-push).
    - Settings → Pull requests → n'autoriser que **Squash merge** ; supprimer les branches après fusion.
    - Settings → Code security : activer Dependabot alerts et le secret scanning.
 3. **Supabase** : créer **deux projets** (dev et prod, jamais partagés), même région (O-007, O-008). Pour la prod,
