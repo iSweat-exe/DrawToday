@@ -57,7 +57,9 @@ npm run db:start     # local Supabase (Docker) / db:reset / db:test (pgTAP) / db
 - Permissions are enforced in the database (RLS + SQL functions) **and** re-checked server-side.
   The UI only hides things; it never grants anything.
 - Every table has RLS enabled (deny by default) and a test for allowed/denied access.
-- Pinch zoom is never disabled (accessibility, and learners zoom in on drawings).
+- The **page** zoom is disabled on purpose (native-app feel, owner decision 2026-10-09: `maximum-scale=1`, `NoZoom`,
+  `touch-action`). Anything the learner must zoom (drawings, reference images) goes through the in-app zoom viewer;
+  never re-enable page zoom, never ship an image that cannot be enlarged.
 
 ## Hard prohibitions
 
